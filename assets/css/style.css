@@ -1,0 +1,59 @@
+body {
+  background-color: black;
+}
+
+.jumbotron{
+  background-color: black;
+  color: white;
+}
+h1 {
+  font-size: 60px;
+}
+
+h3 {
+  font-size: 12px;
+  color: white;
+}
+h4 {
+  font-size: 22px;
+  color: white;
+  font-family: 'Shadows Into Light', cursive;
+
+}
+
+.panel-heading {
+color: grey;
+
+}
+
+.form {
+  margin-left: 720px;
+ opacity: .8;
+}
+
+/* external css: flickity.css, fullscreen.css */
+
+* { box-sizing: border-box; }
+
+body { font-family: sans-serif; }
+
+.carousel {
+  background: #EEE;
+}
+
+.carousel-image {
+  display: block;
+  height: 300px;
+  /* set min-width, allow images to set cell width */
+  min-width: 150px;
+  max-width: 100%;
+  margin-right: 10px;
+  /* vertically center */
+  top: 50%;
+  transform: translateY(-50%)
+}
+
+.carousel.is-fullscreen .carousel-image {
+  height: auto;
+  max-height: 100%;
+}

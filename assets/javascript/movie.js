@@ -14,7 +14,7 @@ var tmdbComing = "http://api.themoviedb.org/3/movie/upcoming" + tmdbKey + selLan
 
 var tmdbNowPlay = "http://api.themoviedb.org/3/movie/now_playing" + tmdbKey + selLanguage + selType + selSort + selPage;
 
-var selMovies = [{}];
+var selMovies = [];
 
 var responseTmdb = {};
 
@@ -23,19 +23,22 @@ var singleMv = "https://api.themoviedb.org/3/movie/";
 var movieIdList = [];
 var movieIdListBl = [];
 
+//Function to get Youtube URL for selected movie ID
 function tmdbYTUrlKey(movieId) {
   var urlYt =  "http://api.themoviedb.org/3/movie/" + movieId + "/videos" + tmdbKey;
   $.ajax({
     url: urlYt,
     method: "GET"
   }).done(function(response){
-    console.log(response);
+    console.log("Here is youtube id ajax response: " + response);
     var results = response.results;
-    return results[0].key;
     console.log(results[0].key);
+  }).fail(function(error) {
+    console.log(error);
   });
 };
- 
+
+//Function to query all the responded object and save it in browser
 function mvGroupQuery(url) {
   var urlInputGroup = url;
   $.ajax({
@@ -48,27 +51,24 @@ function mvGroupQuery(url) {
     for(var i = 0; i<results.length; i++) {
       var id = results[i].id;
       movieIdList.push(id);
-      var name = results[i].title;
-      var poster =results[i].poster_path;
-      var posterUrl = "https://image.tmdb.org/t/p/w500" + poster;
-      var release_date = results[i].release_date;
-      var vote = results[i].vote_average;
-      var overview = results[i].overview;
-      selMovies[i] = {
+      var newObj = {
         "id": results[i].id,
         "name": results[i].title,
         "posterUrl": "https://image.tmdb.org/t/p/w500" + results[i].poster_path,
         "release_date": results[i].release_date,
         "vote": results[i].vote_average,
         "overview": results[i].overview,
-        // "youtubeUrl": tmdbYTUrl(results[i].id),
       };
-      console.log(name, posterUrl, release_date);
-      console.log("movie id is: " + id);
+      selMovies.push(newObj);
+      addMv2Page(newObj);
+      console.log(newObj);
     };
+  }).fail(function(error) {
+    console.log(error);
   });
 };
 
+//This Function hasn't been used, it can check is the movies were made by a selected group of companies.
 function mvSingleQuery(id) {
   console.log("function mvSingleQuery(id) called")
   var urlInputSingle = singleMv + id + tmdbKey;
@@ -92,27 +92,53 @@ function mvSingleQuery(id) {
       console.log("NO~~~~~~~~~~~~")
     };
     });
+  }).fail(function(error) {
+    console.log(error);
   });
 };
 
+function addMv2Page(arr) {
+    var newdcol = $("<div>").addClass("col-lg-4 col-md-4 col-sm-4");
+    var newrow1 = $("<div>").addClass("row");
+    var newrow2 = $("<div>").addClass("row");
+    var newcol1 = $("<div>").addClass("col-lg-12 col-md-12 col-sm-12");
+    var newcol2_1 = $("<div>").addClass("col-lg-8 col-md-8 col-sm-8 text-center");
+    var newcol2_2 = $("<div>").addClass("col-lg-4 col-md-4 col-sm-4 text-center");
 
-// mvGroupQuery(tmdbNowPlay);
-// mvSingleQuery(354912)
-mvGroupQuery(tmdbComing);
+    var img = '<img src='+ arr["posterUrl"] +">";
+    console.log(img);
+    var title1 = '<h4>'+ arr["name"] + '</h4>';
+    var title2 = '<h4>' + arr["vote"] + '</h4>' 
 
-// setTimeout(function(){
-//   for (var i = 0; i < 1; i++) {
-//     mvSingleQuery(movieIdList[i]); };
-// }, 100);
+    newcol2_1.append(title1)
+    newcol2_2.append(title2)
+    newcol1.append(img);
+
+    newrow1.append(newcol1);
+    newrow2.append(newcol2_1);
+    newrow2.append(newcol2_2);
+
+    newdcol.append(newrow1);
+    newdcol.append(newrow2);
+
+    newdcol.attr("id", arr["id"]);
+
+    $("#movieContainer").append(newdcol);
+    console.log("~~~~~~~~~~~~~~~");
+};
 
 
+$("#inTheaterBtn").click(function(event){
+  event.preventDefault();
+  selMovies = [];
+  mvGroupQuery(tmdbComing);
+});
 
-      // if(mvSingleQuery(id)) {
-      //   console.log("we can add this movie now");
-      // };
-      // movieObj[i]["id"] = id;
-      // movieObj[i]["name"] = name;
-      // movieObj[i]["poster"] = poster;
-      // movieObj[i]["posterUrl"] = posterUrl;
-      // movieObj[i]["release_date"] = release_date;
-      // movieObj[i]["vote"] = vote;
+$("#pastMovieBtn").click(function(event){
+  event.preventDefault();
+  selMovies = [];
+  mvGroupQuery(tmdbNowPlay);
+});
+
+      
+

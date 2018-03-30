@@ -1,88 +1,51 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Timesheet</title>
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+        <link rel="stylesheet" href="assets/css/style.css">
+    </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <title>New Movie Location Finder</title>
-  <link rel="stylesheet" href="assets/css/reset.css">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"> -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link href="https://getbootstrap.com/docs/3.3/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" media="screen" href ="assets/css/style_EJ.css">
-  
-</head>
-
-<body>
-
-    <header>
-        <nav class = "navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-                <span class = "navbar-brand mb-0 h1">New Movie Location Finder</span>
+    <body>
+        <div class="container after">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <img src="assets/images/reel.png" class="img-fluid" alt="Responsive image">
+                </div>
+                
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <h1>Movie Finder</h1>
+                    <p>kufbwieubfiuwefiuweiufiwiwufiuwibuiwfev</p>
+                    <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button>
+                    <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button>
+                    <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button>
+                </div>
             </div>
-        </nav>
-    </header>
+        </div>
 
-    <section>
+        <div class="carousel" id="slide" data-flickity='{"fullscreen": true, "lazyLoad": 5}'>
+            <img class="carousel-image" data-flickity-lazyload="assets/images/simon.jpg"/>
+            <img class="carousel-image" data-flickity-lazyload="assets/images/tomb.jpg" />
+            <img class="carousel-image" data-flickity-lazyload="assets/images/midnight.jpg" />
+            <img class="carousel-image" data-flickity-lazyload="assets/images/player.jpg" />
+            <img class="carousel-image" data-flickity-lazyload="assets/images/rim.jpg" />
+            <img class="carousel-image" data-flickity-lazyload="assets/images/red.jpg" />
+            <img class="carousel-image" data-flickity-lazyload="assets/images/sherlock.jpg" />
+            <img class="carousel-image" data-flickity-lazyload="assets/images/game.jpg" />
+        </div>
+
         <div class="container">
-            <button type="button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
-                Watch Trailer
-            </button>
+            <div="row" id="movieContainer"></div>
         </div>
 
-
-        <!-- <div class="container" id="trailer-play">
-
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-    
-                        <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
-                            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
-                        </a>
-    
-                        <div class="scale-media embed-responsive embed-responsive-16by9" id="trailer-video-container">
-                            <iframe id = "trailer-video" class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
-                        </div>
-    
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Release Date PG13</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <!-- <div class="scale-media embed-responsive embed-responsive-16by9" id="trailer-video-container">
-                        <iframe id = "trailer-video" class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
-                    </div> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Find Theater</button>
-                </div>
-                </div>
-            </div>
-        </div>
-
-    </section>
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-    <script type="text/javascript" charset="UTF-8" src="assets/javascript/movie.js"></script>
-
-    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-</body>
+        <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+        <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+        <script src="assets/javascript/movie.js"></script>
+    </body>
+</html>
