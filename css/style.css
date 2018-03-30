@@ -1,48 +1,59 @@
+body {
+  background-color: black;
+}
 
-  body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-  }
-  button {
-    display: block;
-    outline: none;
-    border: none;
-    background-color: black;
-    font-size: 2em;
-    padding: 2em 2.5em;
-    color: white;
-    letter-spacing: 1px;
-    font-family: impact;
-  }
-  #result {
-    display: block;
-    font-size: 1em;
-    font-weight: bold;
-    margin: 2em;
-  }
-p {
-  font-family: impact;
-  color: magenta;
-  font-size: 22px;
+.jumbotron{
+  background-color: black;
+  color: white;
+}
+h1 {
+  font-size: 60px;
 }
 
 h3 {
-color: black;
-font-family: impact;
-font-size: 28px;
+  font-size: 12px;
+  color: white;
 }
-h1 {
-  font-family: arial;
-  color: black;
-  font-size: 24px;
+h4 {
+  font-size: 22px;
+  color: white;
+  font-family: 'Shadows Into Light', cursive;
+
 }
 
-input  {
-  font-family: arial;
-  color: black;
-  font-size: 18px;
+.panel-heading {
+color: grey;
+
+}
+
+.form {
+  margin-left: 720px;
+ opacity: .8;
+}
+
+/* external css: flickity.css, fullscreen.css */
+
+* { box-sizing: border-box; }
+
+body { font-family: sans-serif; }
+
+.carousel {
+  background: #EEE;
+}
+
+.carousel-image {
+  display: block;
+  height: 300px;
+  /* set min-width, allow images to set cell width */
+  min-width: 150px;
+  max-width: 100%;
+  margin-right: 10px;
+  /* vertically center */
+  top: 50%;
+  transform: translateY(-50%)
+}
+
+.carousel.is-fullscreen .carousel-image {
+  height: auto;
+  max-height: 100%;
 }
