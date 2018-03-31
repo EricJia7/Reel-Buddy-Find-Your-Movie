@@ -2,13 +2,13 @@ body {
   background-color: black;
 }
 
-.jumbotron{
+/* .jumbotron{
   background-color: black;
   color: white;
-}
+} */
 h1 {
   font-family: 'Codystar', cursive;
-  font-size: 84px;
+  font-size: 75px;
   color: white;
 }
 
@@ -38,6 +38,7 @@ input {
   color: white;
 }
 h2  {
+  margin-top: 0px;
   color: white;
   font-family: 'Love Ya Like A Sister', cursive;
 }
@@ -47,10 +48,31 @@ h2  {
 }
 .panel-body {
   background-color: black;
+  margin-bottom: 0px;
 }
+.panel {
+width: 480px;
+height: 125px;
+margin-left: 50px;
+background-color: black
+}
+.panel-heading {
+  height: 36px;
+
+}
+#signUpButton {
+  margin-top: 5px;
+  background-color: black;
+  color: white;
+}
+
 #submit {
   background-color: black;
 }
+#submitTwo {
+  background-color: black;
+}
+
 #email_su_input {
   background-color: black;
   color: white;
@@ -90,7 +112,7 @@ button {
 .form {
   margin-left: 720px;
   width: 600px;
-  height: 200px;
+  height: 100px;
   background-color: black;
 
 }
@@ -116,4 +138,4 @@ button {
 .carousel.is-fullscreen .carousel-image {
   height: auto;
   max-height: 100%;
-} */
+}

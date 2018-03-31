@@ -1,114 +1,151 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Timesheet</title>
+<head>
+  <meta charset="utf-8">
+  <title>Timesheet</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-<link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Codystar" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Codystar" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
 
-    <div class="container first">
+  <div class="container first">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6">
         <img src="img/reel.png" class="img-fluid" alt="Responsive image">
       </div>
-    <div class="col-lg-6 col-md-6 col-sm-6 text-center title">
-    <h1>Reel Buddy</h1>
-    <p>The best movie and movie theater search on the web</p>
-    <!-- <div class="col-lg-5 col-md-5 col-sm-5 offset-lg-4 offset-md-4 offset-sm-4 form"> -->
-      <div class="panel panel-danger panel-danger offset-lg-4">
-        <div class="panel-heading panel-danger offset-lg-4" id="table-body">Sign Up | Sign In</div>
-        <div class="panel-body">
+      <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+        <h1>Reel Buddy</h1>
+        <p>The best movie and movie theater search on the web</p>
 
-          <h2>Sign Up</h2>
-    	<form id="sign_up_form">
-    		<input type="text" placeholder="Email" id="email_su_input"/>
-    		<input type="text" placeholder="Zip Code" id="zip_su_input"/>
-    		<input type="password" placeholder="Password" id="password_su_input"/>
-    		<input type="submit" id="submit"/>
-    	</form>
-    	<br><br>
-    	<h2>Sign In</h2>
-    	<form id="sign_in_form">
-    		<input type="text" placeholder="Email" id="email_si_input"/>
-    		<input type="password" placeholder="Password" id="password_si_input"/>
-    		<input type="submit" id="submit"/>
-    	</form>
-    	<button id="logout_button">Logout</button>
-        </div>
+        <div class="row">
+          <div class="panel panel-danger panel-danger offset-lg-6">
+            <div class="panel-heading panel-danger offset-lg-6" id="table-body">Sign In</div>
+            <div class="panel-body offset-lg-6">
+
+              <form id="sign_in_form">
+                <input type="text" placeholder="Email" id="email_si_input"/>
+                <input type="password" placeholder="Password" id="password_si_input"/>
+                <input type="submit" id="submit"/>
+              </form>
+              <button id="signUpButton">Sign Up</button>
+              <button id="logout_button">Logout</button>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
-    </div>
-    
 
-
-<div class="container after">
-<div class="row">
-  <div class="col-lg-6 col-md-6 col-sm-6">
-    <img src="img/reel.png" class="img-fluid" alt="Responsive image">
   </div>
-<div class="col-lg-6 col-md-6 col-sm-6 text-center title">
-<h1>Reel Buddy</h1>
-<p>The best movie and movie theater search on the web</p>
-<button type="button" class="btn btn-danger" id="newMovies">Movies Now Playing</button>
-<button type="button" class="btn btn-danger" id="popularMovies">Most Popular Movies</button>
-<button type="button" class="btn btn-danger" id="pastMovies">Past Movies</button>
-</div>
+
+
+  <div class="container second">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <img src="img/reel.png" class="img-fluid" alt="Responsive image">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+        <h1>Reel Buddy</h1>
+        <p>The best movie and movie theater search on the web</p>
+        <div class="row">
+          <div class="panel panel-danger panel-danger offset-lg-6">
+            <div class="panel-heading panel-danger offset-lg-6" id="table-body">Sign Up</div>
+            <div class="panel-body offset-lg-6">
+
+
+              <form id="sign_up_form">
+                <input type="text" placeholder="Email" id="email_su_input"/>
+                <input type="text" placeholder="Zip Code" id="zip_su_input"/>
+                <input type="password" placeholder="Password" id="password_su_input"/>
+                <input type="submit" id="submitTwo"/>
+              </form>
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="container after">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <img src="img/reel.png" class="img-fluid" alt="Responsive image">
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 text-center title">
+        <h1>Reel Buddy</h1>
+        <p>The best movie and movie theater search on the web</p>
+        <button type="button" class="btn btn-danger" id="newMovies">Movies Now Playing</button>
+        <button type="button" class="btn btn-danger" id="popularMovies">Most Popular Movies</button>
+        <button type="button" class="btn btn-danger" id="pastMovies">Past Movies</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="carousel" id="slide" data-flickity='{ "fullscreen": true, "autoPlay": 1500, "lazyLoad": 5 }'>
+    <img class="carousel-image"
+    data-flickity-lazyload="img/simon.jpg"/>
+    <img class="carousel-image"
+    data-flickity-lazyload="img/tomb.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/midnight.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/player.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/rim.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/red.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/wrinkle.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/sherlock.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/game.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/blockers.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/dogs.jpg" />
+    <img class="carousel-image"
+    data-flickity-lazyload="img/quiet.jpg" />
+  </div>
+
 
 </div>
-</div>
 
-<div class="carousel" id="slide" data-flickity='{ "fullscreen": true, "autoPlay": 1500, "lazyLoad": 5 }'>
-    <img class="carousel-image"
-      data-flickity-lazyload="img/simon.jpg"/>
-    <img class="carousel-image"
-      data-flickity-lazyload="img/tomb.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/midnight.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/player.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/rim.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/red.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/wrinkle.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/sherlock.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/game.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/blockers.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/dogs.jpg" />
-    <img class="carousel-image"
-      data-flickity-lazyload="img/quiet.jpg" />
-</div>
 
+</div>
 
 <div class="container">
   <div="row" id="result">
-
-
-
-  </div>
 </div>
+
+
+
+
+
+
+
 
 
 
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+src="https://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 <script src="js/index.js"></script>
-  </body>
+</body>
 </html>

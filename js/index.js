@@ -1,36 +1,43 @@
 $(document).ready(function() {
-  // $('#newMovies').hide();
-  // $('#submit').on('click', function(){
-  //   $('#newMovies').show();
-  //
-  // });
-  // $('#slide').hide();
+
+  $('.after').hide();
+  $('.second').hide();
+  $('#signUpButton').on('click', function() {
+  $('#slide').show();
+  $('#result').hide();
+  $('.first').hide();
+  $('.second').show();
+  });
+
   $('.after').hide();
   $('#submit').on('click', function() {
+  $('#result').hide();
+  $('.second').hide();
   $('#slide').show();
   $('.first').hide();
   $('.after').show();
+});
 
+$('#newMovies').on('click', function() {
+  $('#slide').hide();
+  $('#result').show();
 
 });
 
-  $('#newMovies').on('click', function() {
-    $('#slide').hide();
-    $('#result').append();
-
+  $('#submitTwo').on('click', function() {
+  $('.second').hide();
+  $('.after').show();
   });
 
+//movieDB
 
-var button = document.querySelector('button')
+var button = document.querySelector('#newMovies');
 var resultContainer = document.querySelector('#result')
 button.addEventListener('click', function( ) {
 let movieName = $('#movie').val();
 
 
-  $.ajax('http://api.themoviedb.org/3/movie/upcoming?api_key=6af6582e4eb5ba81b0db6b8c582d67a4&query='+
-
-
-   movieName)
+  $.ajax('http://api.themoviedb.org/3/movie/upcoming?api_key=6af6582e4eb5ba81b0db6b8c582d67a4&query=' + movieName)
     .done(function(response) {
       $('#result').empty();
 
@@ -71,10 +78,10 @@ var config = {
     authDomain: "reel-buddy.firebaseapp.com",
     databaseURL: "https://reel-buddy.firebaseio.com",
     projectId: "reel-buddy",
-    storageBucket: "",
+    storageBucket: "reel-buddy.appspot.com",
     messagingSenderId: "475413842755"
-};
-firebase.initializeApp(config);
+  };
+  firebase.initializeApp(config);
 
 var firebaseRef = firebase.database().ref();
 
@@ -85,8 +92,9 @@ $('#sign_up_form').on('submit', function(e){
   e.preventDefault();
   var email = $('#email_su_input').val();
   var password = $('#password_su_input').val();
+  var zip = $('#zip_su_input').val();
   firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
-    firebaseRef.child("Users").child(user.uid).set({email: email, zip_code: $('#zip_su_input').val()})
+    firebaseRef.child("Users").child(user.uid).set({email: email, zip_code: zip})
     $('#email_su_input').val("");
     $('#zip_su_input').val("")
     $('#password_su_input').val("");
@@ -119,9 +127,9 @@ firebase.auth().onAuthStateChanged(function(user) {
     firebaseRef.on("value", function(snapshot) {
 
       var users = snapshot.val().Users;
-      for(var i in users){
-        if(users[i].email == user.email){
-          console.log(users[i])
+      for(var key in users){
+        if(users[key].email == user.email){
+          console.log(users[key])
 
         }
       }
