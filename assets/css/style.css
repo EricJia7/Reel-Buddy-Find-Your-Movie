@@ -47,7 +47,15 @@
   cursor: pointer;
 }
 
+#trailerVideo {
+  width: 100%;
+  height: 100%;
+}
 
+#container_trailerVideo {
+  height: 500px;
+  width: auto;
+}
 
 body {
   background-color: black;

@@ -30,8 +30,6 @@ var responseTmdb = {};
 var movieIdList = [];
 var movieIdListBl = [];
 
-var selMvYt = "";
-
 // Firebase read and write
 var config = {
   apiKey: "AIzaSyDTn3DEHWxDZeOEk7RIhVgl9BvvL49hFxU",
@@ -47,17 +45,21 @@ var database = firebase.database();
 
 
 //Function to get Youtube URL for selected movie ID
-function tmdbYTUrlKey(movieId,id) {
-  selMvYt = "";
+function youtubeTrailerPlay(movieId) {
+  
   var urlYt =  "http://api.themoviedb.org/3/movie/" + movieId + "/videos" + tmdbKey;
   $.ajax({
     url: urlYt,
     method: "GET"
   }).done(function(response){
     var results = response.results;
-    selMvYt = results[0].key;
-    console.log(selMvYt);
-    addModal(id);
+    youTubeId = results[0].key;
+    var youTubeUrl = 'http://www.youtube.com/embed/' + youTubeId + '?autoplay=1&html5=1';
+    $("#container_trailerVideo").empty().append($("<iframe></iframe>", {
+      'id': 'trailerVideo',
+      'src': youTubeUrl,
+      'frameborder': 0
+    }));
   }).fail(function(error) {
     console.log(error);
   });
@@ -120,16 +122,14 @@ function mvSingleQuery(id) {
 };
 
 function addMvContainer(arr) {
-
   $("#movie-slide").hide();
-  
   //newdcol will display the mv image, title and rating, call it the trailer video container
   var newdcol = $("<div>").addClass("col-lg-4 col-md-4 col-sm-4");
   //img show in this md-12 row
   var newrow1 = $("<div>").addClass("row");
   //text(title,rating) show here
   var newrow2 = $("<div>").addClass("row");
-
+  
   var newcol1_left = $("<div>").addClass("col-lg-1 col-md-1col-sm-1");
   var newcol1_right= $("<div>").addClass("col-lg-1 col-md-1 col-sm-1");
   var newcol1 = $("<div>").addClass("col-lg-10 col-md-10 col-sm-10");
@@ -165,20 +165,13 @@ function addMvContainer(arr) {
   newdcol.attr("id", arr["id"])
     .addClass("trailer-video-container")
     .attr("data-toggle", "modal")
-    .attr("data-target", "#"+arr["id"]+"Modal");
+    .attr("data-target", "#modalVideo");
 
   // $("#movieContainer").append(newdcol);
   $("#movieContainer").show("slow", function() {
     $(this).append(newdcol)
   });
 
-};
-
-function addModal(str) {
-  console.log("!!!!!!!!!!!!!" + str);
-  $(".modalIndicator").attr("id",str);
-  console.log("!!!!!!!!!!!!!")
-  console.log($(".modal .fade .modalIndicator"));
 };
 
 $("#inTheaterBtn").click(function(event){
@@ -208,11 +201,16 @@ $("#mostPopularBtn").click(function(event){
   mvGroupQuery(tmdbPopular);
 });
 
+//Click to see more info about the movie and watch youtube Trailer
 $(document).on("click", ".trailer-video-container", function(event){
   var mvId = $(this).attr("id");
-  var dataTarget = $(this).attr("data-target").replace("#","");
-  console.log(mvId, dataTarget);
-  tmdbYTUrlKey(mvId,dataTarget);
+  youtubeTrailerPlay(mvId);
+});
+
+// when close the youtube page, stop playing the video in backend. 
+$(document).on("click", "#closeModal", function(event){
+  console.log("I have been clicked");
+  $("#container_trailerVideo").empty();
 });
       
 function addMvSlide(arr) {
@@ -221,5 +219,5 @@ function addMvSlide(arr) {
     .addClass("carousel-image")
     .attr("src",arr["posterUrl"])
   $("#movie-slide").append(imgSlide)
-};
+}; 
 
