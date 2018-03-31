@@ -7,7 +7,9 @@ body {
   color: white;
 }
 h1 {
-  font-size: 60px;
+  font-family: 'Codystar', cursive;
+  font-size: 84px;
+  color: white;
 }
 
 h3 {
@@ -15,40 +17,98 @@ h3 {
   color: white;
 }
 h4 {
-  font-size: 22px;
+  font-size: 23px;
   color: white;
-  font-family: 'Shadows Into Light', cursive;
+  font-family: 'Love Ya Like A Sister', cursive;
+}
+p {
+font-family: 'Codystar', cursive;
+color: white;
+font-size: 16px;
 
 }
 
-.panel-heading {
-color: grey;
+.panel-danger>.panel-heading {
+  color: black;
+  background-color: red;
+}
 
+input {
+  font-family: 'Love Ya Like A Sister', cursive;
+  color: white;
+}
+h2  {
+  color: white;
+  font-family: 'Love Ya Like A Sister', cursive;
+}
+#table-body {
+  font-family: 'Love Ya Like A Sister', cursive;
+  color: white;
+}
+.panel-body {
+  background-color: black;
+}
+#submit {
+  background-color: black;
+}
+#email_su_input {
+  background-color: black;
+  color: white;
+}
+#password_su_input {
+  background-color: black;
+  color: white;
+}
+#password_si_input {
+  background-color: black;
+  color: white;
+}
+#logout_button {
+  background-color: black;
+  color: white;
+}
+#sign_up_form {
+  color: white;
+}
+
+#email_si_input {
+  background-color: black;
+  color: white;
+}
+#zip_su_input {
+  background-color: black;
+  color: white;
+}
+input {
+  color: white;
+}
+button {
+  margin-right: .3em;
+  font-family: 'Love Ya Like A Sister', cursive;
 }
 
 .form {
   margin-left: 720px;
- opacity: .8;
+  width: 600px;
+  height: 200px;
+  background-color: black;
+
+}
+.title {
+  margin-right: 0px;
+
 }
 
-/* external css: flickity.css, fullscreen.css */
-
-* { box-sizing: border-box; }
-
-body { font-family: sans-serif; }
-
 .carousel {
-  background: #EEE;
+  background: black;
 }
 
 .carousel-image {
   display: block;
   height: 300px;
-  /* set min-width, allow images to set cell width */
   min-width: 150px;
   max-width: 100%;
   margin-right: 10px;
-  /* vertically center */
   top: 50%;
   transform: translateY(-50%)
 }
@@ -56,4 +116,4 @@ body { font-family: sans-serif; }
 .carousel.is-fullscreen .carousel-image {
   height: auto;
   max-height: 100%;
-}
+} */

@@ -5,26 +5,66 @@
     <title>Timesheet</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Codystar" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
+
+
+    <div class="container first">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6">
+        <img src="img/reel.png" class="img-fluid" alt="Responsive image">
+      </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 text-center title">
+    <h1>Reel Buddy</h1>
+    <p>The best movie and movie theater search on the web</p>
+    <!-- <div class="col-lg-5 col-md-5 col-sm-5 offset-lg-4 offset-md-4 offset-sm-4 form"> -->
+      <div class="panel panel-danger panel-danger offset-lg-4">
+        <div class="panel-heading panel-danger offset-lg-4" id="table-body">Sign Up | Sign In</div>
+        <div class="panel-body">
+
+          <h2>Sign Up</h2>
+    	<form id="sign_up_form">
+    		<input type="text" placeholder="Email" id="email_su_input"/>
+    		<input type="text" placeholder="Zip Code" id="zip_su_input"/>
+    		<input type="password" placeholder="Password" id="password_su_input"/>
+    		<input type="submit" id="submit"/>
+    	</form>
+    	<br><br>
+    	<h2>Sign In</h2>
+    	<form id="sign_in_form">
+    		<input type="text" placeholder="Email" id="email_si_input"/>
+    		<input type="password" placeholder="Password" id="password_si_input"/>
+    		<input type="submit" id="submit"/>
+    	</form>
+    	<button id="logout_button">Logout</button>
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+
+
 <div class="container after">
 <div class="row">
   <div class="col-lg-6 col-md-6 col-sm-6">
     <img src="img/reel.png" class="img-fluid" alt="Responsive image">
   </div>
-<div class="col-lg-6 col-md-6 col-sm-6">
-<h1>Movie Finder</h1>
-<p>kufbwieubfiuwefiuweiufiwiwufiuwibuiwfev</p>
-<button type="button" class="btn btn-danger" id="newMovies">Click to See Movies Currently Playing</button>
-<button type="button" class="btn btn-danger" id="newMovies">Click to See Movies Currently Playing</button>
+<div class="col-lg-6 col-md-6 col-sm-6 text-center title">
+<h1>Reel Buddy</h1>
+<p>The best movie and movie theater search on the web</p>
+<button type="button" class="btn btn-danger" id="newMovies">Movies Now Playing</button>
+<button type="button" class="btn btn-danger" id="popularMovies">Most Popular Movies</button>
+<button type="button" class="btn btn-danger" id="pastMovies">Past Movies</button>
 </div>
 
 </div>
 </div>
 
-<div class="carousel" id="slide" data-flickity='{ "fullscreen": true, "lazyLoad": 5 }'>
+<div class="carousel" id="slide" data-flickity='{ "fullscreen": true, "autoPlay": 1500, "lazyLoad": 5 }'>
     <img class="carousel-image"
       data-flickity-lazyload="img/simon.jpg"/>
     <img class="carousel-image"
@@ -44,40 +84,11 @@
     <img class="carousel-image"
       data-flickity-lazyload="img/game.jpg" />
     <img class="carousel-image"
-      data-flickity-lazyload="https://picsum.photos/640/640/?image=935" />
+      data-flickity-lazyload="img/blockers.jpg" />
     <img class="carousel-image"
-      data-flickity-lazyload="https://picsum.photos/720/540/?image=855" />
+      data-flickity-lazyload="img/dogs.jpg" />
     <img class="carousel-image"
-      data-flickity-lazyload="https://picsum.photos/640/640/?image=824" />
-</div>
-
-
-<div class="container form">
-<div class="row">
-<div class="col-lg-2 col-md-2 col-sm-2 offset-lg-5 offset-md-5 offset-sm-5">
-  <div class="panel panel-default panel-default offset-lg-8">
-    <div class="panel-heading panel-default offset-lg-8" id="table-body">Sign Up | Sign In</div>
-    <div class="panel-body">
-
-      <h2>Sign Up</h2>
-	<form id="sign_up_form">
-		<input type="text" placeholder="Email" id="email_su_input"/>
-		<input type="text" placeholder="Zip Code" id="zip_su_input"/>
-		<input type="password" placeholder="Password" id="password_su_input"/>
-		<input type="submit" id="submit"/>
-	</form>
-	<br><br>
-	<h2>Sign In</h2>
-	<form id="sign_in_form">
-		<input type="text" placeholder="Email" id="email_si_input"/>
-		<input type="password" placeholder="Password" id="password_si_input"/>
-		<input type="submit" id="submit"/>
-	</form>
-	<button id="logout_button">Logout</button>
-    </div>
-    </div>
-  </div>
-</div>
+      data-flickity-lazyload="img/quiet.jpg" />
 </div>
 
 
