@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  $('.after').hide();
+
   $('.second').hide();
   $('#signUpButton').on('click', function() {
   $('#slide').show();
@@ -11,9 +11,6 @@ $(document).ready(function() {
 
   $('.after').hide();
   $('#submit').on('click', function() {
-  $('#result').hide();
-  $('.second').hide();
-  $('#slide').show();
   $('.first').hide();
   $('.after').show();
 });
@@ -112,9 +109,12 @@ $('#sign_in_form').on('submit', function(e){
   firebase.auth().signInWithEmailAndPassword(email, password).then((success) => {
     $('#email_si_input').val("");
     $('#password_si_input').val("");
+
+
   }).catch(function(error) {
     if(error){
       throw new Error(error.code + " : " + error.message);
+      return;
     }
   });
 });
