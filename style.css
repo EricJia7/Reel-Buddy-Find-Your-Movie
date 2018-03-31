@@ -1,0 +1,47 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  button {
+    display: block;
+    outline: none;
+    border: none;
+    background-color: black;
+    font-size: 2em;
+    padding: 2em 2.5em;
+    color: white;
+    letter-spacing: 1px;
+    font-family: impact;
+  }
+  #result {
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 2em;
+  }
+p {
+  font-family: impact;
+  color: magenta;
+  font-size: 22px;
+}
+
+h3 {
+color: black;
+font-family: impact;
+font-size: 28px;
+}
+h1 {
+  font-family: arial;
+  color: black;
+  font-size: 24px;
+}
+
+input  {
+  font-family: arial;
+  color: black;
+  font-size: 18px;
+}

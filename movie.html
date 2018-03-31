@@ -1,0 +1,116 @@
+<!-- Before pushing make sure to fix the movie.js javascript path -->
+
+
+<!DOCTYPE html>
+
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>New Movie Location Finder</title>
+    <!-- <link rel="stylesheet" href="assets/css/reset.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/3.3/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href ="assets/css/style_EJ.css"> -->
+
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <span class="navbar-brand mb-0 h1">New Movie Location Finder</span>
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        <div class="container">
+            <button type="button" class="btn btn-lg btn-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+                Watch Trailer
+            </button>
+        </div>
+
+
+        <!-- <div class="container" id="trailer-play">
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+    
+                        <a href="#" class="hanging-close" data-dismiss="modal" aria-hidden="true">
+                            <img src="https://lh5.ggpht.com/v4-628SilF0HtHuHdu5EzxD7WRqOrrTIDi_MhEG6_qkNtUK5Wg7KPkofp_VJoF7RS2LhxwEFCO1ICHZlc-o_=s0#w=24&h=24"/>
+                        </a>
+    
+                        <div class="scale-media embed-responsive embed-responsive-16by9" id="trailer-video-container">
+                            <iframe id = "trailer-video" class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Release Date PG13</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <div class="scale-media embed-responsive embed-responsive-16by9" id="trailer-video-container">
+                        <iframe id = "trailer-video" class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
+                    </div> -->
+                    </div>
+
+
+
+
+                    <div class="container1">
+                        <div class="form-group row">
+                            <label for="example-text-input" class="col-2 col-form-label" id="theatre-name">Theatre</label>
+                            <div class="col-10">
+                                <input class="form-control" type="text" value="Artisanal kale" id="example-text-input">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-search-input" class="col-2 col-form-label" id="showtime">ShowTimes</label>
+                            <div class="col-10">
+                                <input class="form-control" type="search" value="How do I shoot web" id="example-search-input">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="theatre">Find Theater</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+    </section>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="movie.js"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
