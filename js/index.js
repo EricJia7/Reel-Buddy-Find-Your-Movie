@@ -80,7 +80,16 @@ var config = {
   };
   firebase.initializeApp(config);
 
-var firebaseRef = firebase.database().ref();
+
+//broken
+// var firebaseRef = firebase.database().ref();
+// var zip = "";
+//
+// firebaseRef.on("value", function(snapshot) {
+//
+//   zip = snapshot.val().zip_code;
+//
+// });
 
 
 $('#logout_button').hide();
