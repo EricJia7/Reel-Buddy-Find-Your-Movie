@@ -4,41 +4,62 @@
         <meta charset="utf-8">
         <title>Find Your Movie Website</title>
         <link rel="stylesheet" href="assets/css/reset.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Codystar" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Paytone+One|Russo+One" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
 
     <body>
-
         <!-- Top Content -->
-        <div class="container after">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <img src="assets/images/reel.png" class="img-fluid" alt="Responsive image">
                 </div>
-                
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <h1>Movie Finder</h1>
-                    <p>kufbwieubfiuwefiuweiufiwiwufiuwibuiwfev</p>
-                    <button type="button" class="btn btn-lg btn-danger" id="inTheaterBtn">Movies Now Playing</button>
-                    <button type="button" class="btn btn-lg btn-danger" id="mostPopularBtn">Most Popular Movies</button>
-                    <button type="button" class="btn btn-lg btn-danger" id="pastMovieBtn">Past Movies</button>
-                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+                    <div class="row" id = "heading">
+                        <div class="col-md-12">
+                            <p class = "webHeaderLg text-uppercase text-center" id = "titleDisplay">Reel Buddy</p>
+                            <p class = "webHeaderSm text-uppercase text-center" >The Best Website to Find Your Movie</p>
+                        </div>
+                    </div>
+
+                    <form id="sign_in_form">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6" id="divZipIn"></div>
+                            <div class="col-md-6" id="btnCol">
+                                <button class="btn btn-secondary btn-sm text-uppercase" id="signInBtn" type="button">Sign In</button>
+                                <button class="btn btn-secondary btn-sm text-uppercase" id="signUpBtn" type="submit">Sign Up</button>
+                            </div>
+                        </div>
+                    </form>
             </div>
         </div>
-
         <!-- Movie Slide Show -->
-        <div class="carousel" id="movie-slide" data-flickity='{"fullscreen": true, "lazyLoad": 5, "wrapAround": true, "autoPlay": 2000}'>
-            <img class="carousel-image" data-flickity-lazyload="assets/images/simon.jpg"/>
-            <img class="carousel-image" data-flickity-lazyload="assets/images/tomb.jpg" />
-            <img class="carousel-image" data-flickity-lazyload="assets/images/midnight.jpg" />
-            <img class="carousel-image" data-flickity-lazyload="assets/images/player.jpg" />
-            <img class="carousel-image" data-flickity-lazyload="assets/images/rim.jpg" />
-            <img class="carousel-image" data-flickity-lazyload="assets/images/red.jpg" />
-            <img class="carousel-image" data-flickity-lazyload="assets/images/sherlock.jpg" />
-            <img class="carousel-image" data-flickity-lazyload="assets/images/game.jpg" />
+        <div class="container" id = "mvSlideContainer">
+            <div class="carousel" id="movieSlide" data-flickity='{"fullscreen": true, "lazyLoad": 1, "wrapAround": true, "autoPlay": 1500}'>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/v5HlmJK9bdeHxN2QhaFP1ivjX3U.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/bXrZ5iHBEjH7WMidbUDQ0U2xbmr.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/eWINXglQ9JVxUuzouYK7arm9YT1.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/xHdf2wRgCSp9MrZRryikiZIH6jB.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/uj4BIueaGjPUomL7g3bpal4b8yw.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/1wS89vns6cseCn4UHSqj97xKEKW.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/30oXQKwibh0uANGMs0Sytw3uN22.jpg"/>
+                <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/t8U7u8RXkXQV9UCq0NPAANF9L9u.jpg"/>
+            </div>
         </div>
 
         <!-- Movie display container -->
@@ -46,7 +67,6 @@
             <div class="breakRow"></div>
             <div class="row" id="movieContainer"></div>
         </div>
-
         <!-- MODAL -->
         <div class="modal fade modalIndicator" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="modal-video-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -61,21 +81,23 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary btn-lg" id = "closeModal" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-lg" >Find Theater</button>
+                        <button type="button" class="btn btn-secondary" id = "closeModal" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" >Find Theater</button>
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- bootstrap 4.0 modal support -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="" crossorigin="anonymous"></script>
         
         <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
         <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
         <script src="assets/javascript/movie.js"></script>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="" crossorigin="anonymous"></script>
+
+
     </body>
 </html>

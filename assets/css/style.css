@@ -35,11 +35,12 @@
 
 .mvTitle {
   color: white;
-  font-size: 2em;
+  font-size: 1.2em;
+  font-family: alternate-gothic-no-1-d,"Futura Condensed","Arial Narrow", Arial, sans-serif;
 }
 
 .trailer-video-container {
-  padding-top: 2em;
+  padding-top: 1em;
 }
 
 .trailer-video-container:hover {
@@ -53,7 +54,7 @@
 }
 
 #container_trailerVideo {
-  height: 500px;
+  height: 380px;
   width: auto;
 }
 
@@ -61,8 +62,19 @@ body {
   background-color: black;
 }
 
+.webHeaderLg {
+  font-family: 'Paytone One', sans-serif;
+  font-size: 4em;
+  color: white;
+}
 
-h1 {
+.webHeaderSm {
+  font-family: 'Codystar', cursive;
+  font-size: 1em;
+  color: white;
+}
+
+/* h1 {
   font-size: 60px;
 }
 
@@ -84,3 +96,7 @@ color: grey;
   margin-left: 720px;
  opacity: .8;
 }
+
+ */
+
+

@@ -1,3 +1,4 @@
+// The Movie DB API call variables
 var tmdbKey = "?api_key=6af6582e4eb5ba81b0db6b8c582d67a4";
 var selRegion = "&region=US";
 var selLanguage = "&language=en-US";
@@ -29,6 +30,18 @@ var responseTmdb = {};
 
 var movieIdList = [];
 var movieIdListBl = [];
+
+var listBtnHtml = $('<button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button>');
+
+//slide show variables
+var $carousel = $('.carousel').flickity({
+  initialIndex: 2,
+  fullscreen: true,
+  lazyLoad: 4, 
+  wrapAround: true,
+  autoPlay: 1500,
+  pauseAutoPlayOnHover: true,
+});
 
 // Firebase read and write
 var config = {
@@ -67,6 +80,7 @@ function youtubeTrailerPlay(movieId) {
 
 //Function to query all the responded object and save it in browser
 function mvGroupQuery(url) {
+  // $("#movieSlide").empty();
   var urlInputGroup = url;
   $.ajax({
     url:urlInputGroup,
@@ -74,6 +88,9 @@ function mvGroupQuery(url) {
   }).done(function(response){
     var results = response.results;
     responseTmdb = response.results;
+    $('.carousel').carousel({
+      autoPlay: 2000
+    });
     for(var i = 0; i<results.length; i++) {
       var id = results[i].id;
       movieIdList.push(id);
@@ -81,12 +98,14 @@ function mvGroupQuery(url) {
         "id": results[i].id,
         "name": results[i].title,
         "posterUrl": "https://image.tmdb.org/t/p/w500" + results[i].poster_path,
+        "poasterHdUrl": "https://image.tmdb.org/t/p/w780" + results[i].poster_path,
         "release_date": results[i].release_date,
         "vote": results[i].vote_average,
         "overview": results[i].overview,
       };
       selMovies.push(newObj);
       addMvContainer(newObj);
+      addMvSlide(newObj);
     };
   }).fail(function(error) {
     console.log(error);
@@ -102,6 +121,7 @@ function mvSingleQuery(id) {
     url:urlInputSingle,
     method: "GET",
   }).done(function(response){
+    console.log(response);
     var result = response;
     var prdCompanies = result.production_companies;
     var knownCompany = false;
@@ -122,14 +142,14 @@ function mvSingleQuery(id) {
 };
 
 function addMvContainer(arr) {
-  $("#movie-slide").hide();
+  // $("#movie-slide").hide();
   //newdcol will display the mv image, title and rating, call it the trailer video container
   var newdcol = $("<div>").addClass("col-lg-4 col-md-4 col-sm-4");
   //img show in this md-12 row
   var newrow1 = $("<div>").addClass("row");
   //text(title,rating) show here
   var newrow2 = $("<div>").addClass("row");
-  
+
   var newcol1_left = $("<div>").addClass("col-lg-1 col-md-1col-sm-1");
   var newcol1_right= $("<div>").addClass("col-lg-1 col-md-1 col-sm-1");
   var newcol1 = $("<div>").addClass("col-lg-10 col-md-10 col-sm-10");
@@ -148,10 +168,10 @@ function addMvContainer(arr) {
   newrow1.append(newcol1_right);
 
   var newp1 = $("<p>")
-    .addClass("mvTitle text-center")
+    .addClass("mvTitle text-center text-uppercase")
     .text(arr["name"]);
   var newp2 = $("<p>")
-    .addClass("mvTitle text-center")
+    .addClass("mvTitle text-center text-uppercase")
     .text(arr["vote"]);
 
   newcol2_1.append(newp1);
@@ -174,32 +194,116 @@ function addMvContainer(arr) {
 
 };
 
-$("#inTheaterBtn").click(function(event){
-  $("#movieContainer").empty();
-  // $("#movieContainer").css("background-color", "white" );
-  event.preventDefault();
-  selMovies = [];
-  mvGroupQuery(tmdbComing);
-  $(".trailer-video-container").on("click", ".img-fluid",function(event){
-    alert("ha")
+function inTheaterDisplay() {
+  $("#inTheaterBtn").click(function(event){
+    $("#movieContainer").empty();
+    RmMvSlide();
+    // $("#movieContainer").css("background-color", "white" );
+    event.preventDefault();
+    selMovies = [];
+    mvGroupQuery(tmdbComing);
+  });  
+};
+
+function pastMovieDisplay() {
+  $("#pastMovieBtn").click(function(event){
+    $("#movieContainer").empty();
+    RmMvSlide();
+    // $("#movieContainer").css("background-color", "white" );
+    event.preventDefault();
+    selMovies = [];
+    mvGroupQuery(tmdbNowPlay);
+  });
+};
+
+function mostPopularDisplay() {
+  $("#mostPopularBtn").click(function(event){
+    $("#movieContainer").empty();
+    RmMvSlide();
+    // $("#movieContainer").css("background-color", "white" );
+    event.preventDefault();
+    selMovies = [];
+    mvGroupQuery(tmdbPopular);
+  });
+};
+
+//Display all the Available Button
+function btnDisplay() {
+  $("#sign_in_form").remove();
+  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12"> <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button> </div>');
+  inTheaterDisplay();
+  pastMovieDisplay();
+  mostPopularDisplay();
+};
+
+// Remove all current slides of movie
+function RmMvSlide() {
+  var cellElements = $carousel.flickity('getCellElements')
+  cellElements.map(ele => $carousel.flickity('remove', ele));
+};
+
+function addMvSlide(arr) {
+  $carousel.flickity('reloadCells')
+  console.log("addMvSlide() function run")
+  var $cellElems = $('<img class="carousel-image" data-flickity-lazyload="' + arr["posterUrl"] + '"/>' );
+  $carousel.flickity('append', $cellElems);
+}; 
+
+function logUser(user,email,zipcode) {
+  var ref = database.ref("users");
+  var obj = {
+    "user": user,
+    "email": email,
+    "zipcode": zipcode,
+  };
+  ref.push(obj);
+};
+
+$("#signUpBtn").click(function(event){
+  $("#divZipIn").append('<input type="text" class="form-control" id="zipInput" placeholder="Zipcode" />');
+  $("#btnCol").append('<button class="btn btn-secondary text-uppercase" id="enterBtn" type="button">Enter </button>');
+  $("#signUpBtn").remove();
+  $("#signInBtn").remove();
+
+  $("#enterBtn").click(function(event){
+    var email = $("#emailInput").val();
+    var password = $("#passwordInput").val();
+    var zipcode = $("#zipInput").val();
+    console.log(email,password,zipcode);
+
+    firebase.auth().createUserWithEmailAndPassword(email,password).then(function(user){
+      var user = firebase.auth().currentUser;
+      logUser(user.uid,email,zipcode);
+      $('#emailInput').val("");
+      $('#passwordInput').val("")
+      $('#zipInput').val("");
+    }, function(error){
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode,errorMessage);
+    });
+    btnDisplay();
   });
 });
 
-$("#pastMovieBtn").click(function(event){
-  $("#movieContainer").empty();
-  // $("#movieContainer").css("background-color", "white" );
-  event.preventDefault();
-  selMovies = [];
-  mvGroupQuery(tmdbNowPlay);
+$("#signInBtn").click(function(event){
+
+  var email = $("#emailInput").val();
+  var password = $("#passwordInput").val();
+  console.log(email,password);
+
+  firebase.auth().signInWithEmailAndPassword(email, password).then((success) => {
+    console.log("This is successful!!")
+    $('#emailInput').val("");
+    $('#passwordInput').val("");
+  }).catch(function(error) {
+    if(error){
+      throw new Error(error.code + " : " + error.message);
+      console.log("Something wrong!");
+    };
+  });
 });
 
-$("#mostPopularBtn").click(function(event){
-  $("#movieContainer").empty();
-  // $("#movieContainer").css("background-color", "white" );
-  event.preventDefault();
-  selMovies = [];
-  mvGroupQuery(tmdbPopular);
-});
 
 //Click to see more info about the movie and watch youtube Trailer
 $(document).on("click", ".trailer-video-container", function(event){
@@ -208,16 +312,27 @@ $(document).on("click", ".trailer-video-container", function(event){
 });
 
 // when close the youtube page, stop playing the video in backend. 
-$(document).on("click", "#closeModal", function(event){
-  console.log("I have been clicked");
+$(document).on("click", "#closeModal", "#modal",function(event){
   $("#container_trailerVideo").empty();
 });
-      
-function addMvSlide(arr) {
-  $("#movieContainer").empty();
-  var imgSlide = $("<img>")
-    .addClass("carousel-image")
-    .attr("src",arr["posterUrl"])
-  $("#movie-slide").append(imgSlide)
-}; 
 
+
+
+// firebase.auth().onAuthStateChanged(function(user) {
+//   if (user) {
+//     console.log("User Signed In");
+
+//     firebaseRef.on("value", function(snapshot) {
+
+//       var users = snapshot.val().Users;
+//       for(var key in users){
+//         if(users[key].email == user.email){
+//           console.log(users[key])
+
+//         }
+//       }
+
+//     }, function(errorObject){
+//       console.log("Errors handled: " + errorObject.code)
+//     }) 
+//   }}
