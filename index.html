@@ -31,7 +31,7 @@
                     <form id="sign_in_form">
                         <div class="form-row">
                             <div class="col-md-6">
-                                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter Email">
                             </div>
                             <div class="col-md-6">
                                 <input type="password" class="form-control" id="passwordInput" placeholder="Password">
@@ -39,10 +39,11 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-6" id="divZipIn"></div>
-                            <div class="col-md-6" id="btnCol">
-                                <button class="btn btn-secondary btn-sm text-uppercase" id="signInBtn" type="button">Sign In</button>
-                                <button class="btn btn-secondary btn-sm text-uppercase" id="signUpBtn" type="submit">Sign Up</button>
+                            <div class="col-md-3" id="divZipIn"></div>
+                            <div class="col-md-5" id="aletMsg"></div>
+                            <div class="col-md-4" id="btnCol">
+                                <button class="btn btn-secondary btn-sm text-uppercase align-middle" id="signInBtn" type="button">Sign In</button>
+                                <button class="btn btn-secondary btn-sm text-uppercase align-middle" id="signUpBtn" type="submit">Sign Up</button>
                             </div>
                         </div>
                     </form>
@@ -51,7 +52,7 @@
         </div>
         <!-- Movie Slide Show -->
         <div class="container" id = "mvSlideContainer">
-            <div class="carousel" id="movieSlide" data-flickity='{"fullscreen": true, "lazyLoad": 1, "wrapAround": true, "autoPlay": 1500}'>
+            <div class="carousel" id="movieSlide" data-flickity='{"fullscreen": true, "lazyLoad": 5, "wrapAround": true, "autoPlay": 1500}'>
                 <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/v5HlmJK9bdeHxN2QhaFP1ivjX3U.jpg"/>
                 <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/bXrZ5iHBEjH7WMidbUDQ0U2xbmr.jpg"/>
                 <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/eWINXglQ9JVxUuzouYK7arm9YT1.jpg"/>

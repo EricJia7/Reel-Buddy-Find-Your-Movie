@@ -13,10 +13,10 @@ var selTotalResults = "&total_results=40";
 var usMvCompanies = ["Paramount", "Universal Pictures", "Legendary Pictures", "Warner Bros. Pictures", "Sony Pictures", "Sony Pictures Animation"]
 
 // URL for movies currently show in theater. 
-var tmdbComing = "http://api.themoviedb.org/3/movie/upcoming" + tmdbKey + selLanguage + selType + selSort + selPage1;
+var tmdbComing = "https://api.themoviedb.org/3/movie/upcoming" + tmdbKey + selLanguage + selType + selSort + selPage1;
 
 //URL for movies recently put off from the market. 
-var tmdbNowPlay = "http://api.themoviedb.org/3/movie/now_playing" + tmdbKey + selLanguage + selType + selSort + selPage1;
+var tmdbNowPlay = "https://api.themoviedb.org/3/movie/now_playing" + tmdbKey + selLanguage + selType + selSort + selPage1;
 
 //URL for most poplular movies. 
 var tmdbPopular =  "https://api.themoviedb.org/3/movie/popular" + tmdbKey + selLanguage + selPage2;
@@ -60,14 +60,14 @@ var database = firebase.database();
 //Function to get Youtube URL for selected movie ID
 function youtubeTrailerPlay(movieId) {
   
-  var urlYt =  "http://api.themoviedb.org/3/movie/" + movieId + "/videos" + tmdbKey;
+  var urlYt =  "https://api.themoviedb.org/3/movie/" + movieId + "/videos" + tmdbKey;
   $.ajax({
     url: urlYt,
     method: "GET"
   }).done(function(response){
     var results = response.results;
     youTubeId = results[0].key;
-    var youTubeUrl = 'http://www.youtube.com/embed/' + youTubeId + '?autoplay=1&html5=1';
+    var youTubeUrl = 'https://www.youtube.com/embed/' + youTubeId + '?autoplay=1&html5=1';
     $("#container_trailerVideo").empty().append($("<iframe></iframe>", {
       'id': 'trailerVideo',
       'src': youTubeUrl,
@@ -228,8 +228,11 @@ function mostPopularDisplay() {
 };
 
 //Display all the Available Button
-function btnDisplay() {
+function btnDisplay(str) {
+  var email = str;
+  var name = email.substring(0, email.lastIndexOf("@"));
   $("#sign_in_form").remove();
+  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 text-uppercase" id = "helloDisplay">Hi ' + name + '</div>')
   $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12"> <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button> </div>');
   inTheaterDisplay();
   pastMovieDisplay();
@@ -244,47 +247,68 @@ function RmMvSlide() {
 
 function addMvSlide(arr) {
   $carousel.flickity('reloadCells')
-  console.log("addMvSlide() function run")
   var $cellElems = $('<img class="carousel-image" data-flickity-lazyload="' + arr["posterUrl"] + '"/>' );
   $carousel.flickity('append', $cellElems);
 }; 
 
-function logUser(user,email,zipcode) {
+function logUser(userlog,emaillog,zipcodelog) {
   var ref = database.ref("users");
   var obj = {
-    "user": user,
-    "email": email,
-    "zipcode": zipcode,
+    "user": userlog,
+    "email": emaillog,
+    "zipcode": zipcodelog,
   };
   ref.push(obj);
 };
 
+function alertMessage(str) {
+  $("#aletMsg").empty();
+  $("#aletMsg")
+    .css("color","red")
+    .css("margin-bottom","2em")
+    .addClass("text-center text-uppercase align-middle")
+    .text(str);
+};
+
 $("#signUpBtn").click(function(event){
-  $("#divZipIn").append('<input type="text" class="form-control" id="zipInput" placeholder="Zipcode" />');
-  $("#btnCol").append('<button class="btn btn-secondary text-uppercase" id="enterBtn" type="button">Enter </button>');
+  $("#divZipIn").append('<input type="text" class="form-control" id="zipInput" placeholder="Zipcode"/>');
+  $("#btnCol").append('<button class="btn btn-success btn-sm text-uppercase align-middle" id="enterBtn" type="button">Enter </button>');
   $("#signUpBtn").remove();
   $("#signInBtn").remove();
-
   $("#enterBtn").click(function(event){
     var email = $("#emailInput").val();
     var password = $("#passwordInput").val();
     var zipcode = $("#zipInput").val();
     console.log(email,password,zipcode);
-
-    firebase.auth().createUserWithEmailAndPassword(email,password).then(function(user){
-      console.log("The Current User is")
-      var user1 = firebase.auth().currentUser;
-      logUser(user1.uid,email,zipcode);
+    firebase.auth().createUserWithEmailAndPassword(email,password).then(function(){
+      signUpUser = firebase.auth().currentUser;
+      console.log("The Current User is", signUpUser);
+      logUser(signUpUser.uid,email,zipcode);
       $('#emailInput').val("");
       $('#passwordInput').val("")
       $('#zipInput').val("");
     }, function(error){
       var errorCode = error.code;
       var errorMessage = error.message;
-      console.log(errorCode,errorMessage);
+      console.log(errorCode);
+      console.log(errorMessage);
+      if (errorCode == "auth/weak-password") {
+        alertMessage("Password too week");
+      } else if (errorCode == 'auth/email-already-in-use') {
+        alertMessage("Email Registered");
+      } else if (errorCode == 'auth/invalid-email') {
+        alertMessage("Invalid Email");
+      };
     });
-    btnDisplay();
   });
+});
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if(user) {
+    var email = user.email;
+    var uid = user.uid;
+    btnDisplay(email);
+  };
 });
 
 $("#signInBtn").click(function(event){
