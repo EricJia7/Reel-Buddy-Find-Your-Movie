@@ -272,8 +272,9 @@ $("#signUpBtn").click(function(event){
     console.log(email,password,zipcode);
 
     firebase.auth().createUserWithEmailAndPassword(email,password).then(function(user){
-      var user = firebase.auth().currentUser;
-      logUser(user.uid,email,zipcode);
+      console.log("The Current User is")
+      var user1 = firebase.auth().currentUser;
+      logUser(user1.uid,email,zipcode);
       $('#emailInput').val("");
       $('#passwordInput').val("")
       $('#zipInput').val("");
