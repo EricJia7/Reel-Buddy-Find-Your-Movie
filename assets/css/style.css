@@ -75,12 +75,32 @@ body {
 }
 
 #helloDisplay {
-  font-family: 'Codystar', cursive;
+  font-family: 'Roboto', sans-serif;
   margin-bottom: 0.5em;
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: white;
+  word-spacing: 0.5em;
 }
 
+.submitBtn {
+  font-family: 'Roboto', sans-serif;
+}
+
+.inputForm {
+  font-family: 'Roboto', sans-serif;
+}
+
+.alertDisplay {
+  font-family: 'Roboto', sans-serif;
+}
+
+.modal-content {
+  background-color: rgb(122, 120, 120);
+}
+
+.modal-footer {
+  border: 0;
+}
 /* h1 {
   font-size: 60px;
 }

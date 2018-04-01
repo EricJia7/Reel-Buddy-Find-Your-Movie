@@ -1,3 +1,4 @@
+// ******************************variables related with TMDB API start
 // The Movie DB API call variables
 var tmdbKey = "?api_key=6af6582e4eb5ba81b0db6b8c582d67a4";
 var selRegion = "&region=US";
@@ -29,21 +30,9 @@ var selMovies = [];
 var responseTmdb = {};
 
 var movieIdList = [];
-var movieIdListBl = [];
+// ******************************variables related with TMDB API end
 
-var listBtnHtml = $('<button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button>');
-
-//slide show variables
-var $carousel = $('.carousel').flickity({
-  initialIndex: 2,
-  fullscreen: true,
-  lazyLoad: 4, 
-  wrapAround: true,
-  autoPlay: 1500,
-  pauseAutoPlayOnHover: true,
-});
-
-// Firebase read and write
+// ******************************variables related with Firebase NoSQL databse start
 var config = {
   apiKey: "AIzaSyDTn3DEHWxDZeOEk7RIhVgl9BvvL49hFxU",
   authDomain: "find-your-movie.firebaseapp.com",
@@ -56,9 +45,35 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+var currentUserZip;
+
+// ******************************variables related with Firebase NoSQL databse end
+
+// ******************************variables related with TMS APIstart
+var tmsMovies = new Array();
+var tmsKey = "nvp8skju7ngwxgvf56t3772x";
+var tmsKey1 = "k652j8wurjgybvrj3v9w65pa";
+var tmsKey1 = "22ajvn98zuj3e3646kg3rbpg";
+var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
+
+var todayDate = new Date().toISOString().slice(0,10);;
+var startDate = "2018-04-01";
+var baseUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
+var tmsURL = "";
+// ******************************variables related with TMS APIstart
+
+//slide show variables
+var $carousel = $('.carousel').flickity({
+  initialIndex: 2,
+  fullscreen: true,
+  lazyLoad: 4, 
+  wrapAround: true,
+  autoPlay: 1500,
+  pauseAutoPlayOnHover: true,
+});
 
 //Function to get Youtube URL for selected movie ID
-function youtubeTrailerPlay(movieId) {
+function youtubeTrailerPlay(movieId,movieName) {
   
   var urlYt =  "https://api.themoviedb.org/3/movie/" + movieId + "/videos" + tmdbKey;
   $.ajax({
@@ -73,6 +88,9 @@ function youtubeTrailerPlay(movieId) {
       'src': youTubeUrl,
       'frameborder': 0
     }));
+    $("#findTheaterBtn")
+      .attr("data-zipcode",currentUserZip)
+      .attr("data-mvName",movieName);
   }).fail(function(error) {
     console.log(error);
   });
@@ -185,7 +203,8 @@ function addMvContainer(arr) {
   newdcol.attr("id", arr["id"])
     .addClass("trailer-video-container")
     .attr("data-toggle", "modal")
-    .attr("data-target", "#modalVideo");
+    .attr("data-target", "#modalVideo")
+    .attr("data-mvname",arr["name"]);
 
   // $("#movieContainer").append(newdcol);
   $("#movieContainer").show("slow", function() {
@@ -228,11 +247,11 @@ function mostPopularDisplay() {
 };
 
 //Display all the Available Button
-function btnDisplay(str) {
-  var email = str;
+function btnDisplay(emailStr,zipStr) {
+  var email = emailStr;
   var name = email.substring(0, email.lastIndexOf("@"));
   $("#sign_in_form").remove();
-  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 text-uppercase" id = "helloDisplay">Hi ' + name + '</div>')
+  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 text-capitalize" id = "helloDisplay">Hi  ' + name + '  from  ' + zipStr + '</div>');
   $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12"> <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button> </div>');
   inTheaterDisplay();
   pastMovieDisplay();
@@ -252,13 +271,17 @@ function addMvSlide(arr) {
 }; 
 
 function logUser(userlog,emaillog,zipcodelog) {
-  var ref = database.ref("users");
-  var obj = {
+  var ref = database.ref().child("Users");
+  var data = {
     "user": userlog,
     "email": emaillog,
-    "zipcode": zipcodelog,
+    "zipcode": zipcodelog
   };
-  ref.push(obj);
+  ref.child(userlog).set(data).then(function(ref){
+    console.log("Firebase Data Saved")
+  },function(error){
+    console.log(errpr);
+  });
 };
 
 function alertMessage(str) {
@@ -266,13 +289,13 @@ function alertMessage(str) {
   $("#aletMsg")
     .css("color","red")
     .css("margin-bottom","2em")
-    .addClass("text-center text-uppercase align-middle")
+    .addClass("text-center text-uppercase align-middle alertDisplay")
     .text(str);
 };
 
 $("#signUpBtn").click(function(event){
-  $("#divZipIn").append('<input type="text" class="form-control" id="zipInput" placeholder="Zipcode"/>');
-  $("#btnCol").append('<button class="btn btn-success btn-sm text-uppercase align-middle" id="enterBtn" type="button">Enter </button>');
+  $("#divZipIn").append('<input type="text" class="form-control inputForm" id="zipInput" placeholder="Zipcode"/>');
+  $("#btnCol").append('<button class="btn btn-success btn-sm text-uppercase align-middle submitBtn" id="enterBtn" type="button">Enter </button>');
   $("#signUpBtn").remove();
   $("#signInBtn").remove();
   $("#enterBtn").click(function(event){
@@ -303,37 +326,52 @@ $("#signUpBtn").click(function(event){
   });
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-  if(user) {
-    var email = user.email;
-    var uid = user.uid;
-    btnDisplay(email);
-  };
-});
-
 $("#signInBtn").click(function(event){
-
   var email = $("#emailInput").val();
   var password = $("#passwordInput").val();
   console.log(email,password);
-
   firebase.auth().signInWithEmailAndPassword(email, password).then((success) => {
     console.log("This is successful!!")
-    $('#emailInput').val("");
-    $('#passwordInput').val("");
   }).catch(function(error) {
-    if(error){
-      throw new Error(error.code + " : " + error.message);
-      console.log("Something wrong!");
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log(errorCode);
+    console.log(errorMessage);
+    if (errorCode == "auth/user-not-found") {
+      alertMessage("Email Not Found buddy");
+    } else if (errorCode == 'auth/wrong-password') {
+      alertMessage("Wrong Password buddy");
+    } else if (errorCode == 'auth/invalid-email') {
+      alertMessage("Invalid Email buddy");
     };
   });
 });
 
+// check if user has been signed in
+firebase.auth().onAuthStateChanged(function(user) {
+  if(user) {
+    console.log("onAuthStateChanged is running");
+    var email = user.email;
+    var uid = user.uid;
+    getFbZip(uid,email);
+  };
+});
+
+function getFbZip(id,email) {
+  console.log("getFbZip is running");
+  database.ref("Users").child(id).once("value").then(function(snapshot) {
+    var zip = snapshot.val().zipcode;
+    currentUserZip = zip;
+    tmsURL = baseUrl + todayDate + "&zip=" + currentUserZip + "&api_key=" + tmsKey;
+    btnDisplay(email,zip);
+  });
+};
 
 //Click to see more info about the movie and watch youtube Trailer
 $(document).on("click", ".trailer-video-container", function(event){
   var mvId = $(this).attr("id");
-  youtubeTrailerPlay(mvId);
+  var mvName = $(this).attr("data-mvname");
+  youtubeTrailerPlay(mvId,mvName);
 });
 
 // when close the youtube page, stop playing the video in backend. 
@@ -342,22 +380,35 @@ $(document).on("click", "#closeModal", "#modal",function(event){
 });
 
 
+$("#findTheaterBtn").click(function(event){
+  var selZip = $(this).attr("data-zipcode");
+  var selName = $(this).attr("data-mvname");
+  console.log("When Find Theater Btn clicked, the zipcode is: " + selZip);
+  console.log("When Find Theater Btn clicked, the movie name is: " + selName);
+  findMvLocation(tmsURL);
+});
 
-// firebase.auth().onAuthStateChanged(function(user) {
-//   if (user) {
-//     console.log("User Signed In");
+function findMvLocation(url) {
+  // api can only make 50 calls per day, limited the call per each user
+  if(tmsMovies.length === 0) {
+    return;
+  };
+  console.log("findMvLocation function run");
+  var urlLocation = url;
+  $.ajax({
+    url: urlLocation,
+    method: "GET"
+  }).done(function(response){
+    console.log(response);
+    var results = response;
+    results.map((currElement,index) => {
+      var singleMv = {};
+      singleMv["title"] = currElement.title;
+      singleMv["shortDescription"] = currElement.shortDescription;
+      singleMv["releaseDate"] = currElement.releaseDate;
+      singleMv["showTimes"] = currElement.showtimes;
+      tmsMovies.push(singleMv);
+    });
+  });
+};
 
-//     firebaseRef.on("value", function(snapshot) {
-
-//       var users = snapshot.val().Users;
-//       for(var key in users){
-//         if(users[key].email == user.email){
-//           console.log(users[key])
-
-//         }
-//       }
-
-//     }, function(errorObject){
-//       console.log("Errors handled: " + errorObject.code)
-//     }) 
-//   }}
