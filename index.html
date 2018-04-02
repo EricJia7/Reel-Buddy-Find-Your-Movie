@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Love+Ya+Like+A+Sister" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Codystar" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Paytone+One|Russo+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Paytone+One|Russo+One|Roboto" rel="stylesheet">
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
 
@@ -31,18 +31,19 @@
                     <form id="sign_in_form">
                         <div class="form-row">
                             <div class="col-md-6">
-                                <input type="email" class="form-control" id="emailInput" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" class="form-control inputForm" id="emailInput" aria-describedby="emailHelp" placeholder="Enter Email">
                             </div>
                             <div class="col-md-6">
-                                <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+                                <input type="password" class="form-control inputForm" id="passwordInput" placeholder="Password">
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-6" id="divZipIn"></div>
-                            <div class="col-md-6" id="btnCol">
-                                <button class="btn btn-secondary btn-sm text-uppercase" id="signInBtn" type="button">Sign In</button>
-                                <button class="btn btn-secondary btn-sm text-uppercase" id="signUpBtn" type="submit">Sign Up</button>
+                            <div class="col-md-3" id="divZipIn"></div>
+                            <div class="col-md-5" id="aletMsg"></div>
+                            <div class="col-md-4" id="btnCol">
+                                <button class="btn btn-secondary btn-sm text-uppercase align-middle submitBtn" id="signInBtn" type="button">Sign In</button>
+                                <button class="btn btn-secondary btn-sm text-uppercase align-middle submitBtn" id="signUpBtn" type="button">Sign Up</button>
                             </div>
                         </div>
                     </form>
@@ -51,7 +52,7 @@
         </div>
         <!-- Movie Slide Show -->
         <div class="container" id = "mvSlideContainer">
-            <div class="carousel" id="movieSlide" data-flickity='{"fullscreen": true, "lazyLoad": 1, "wrapAround": true, "autoPlay": 1500}'>
+            <div class="carousel" id="movieSlide" data-flickity='{"fullscreen": true, "lazyLoad": 5, "wrapAround": true, "autoPlay": 1500}'>
                 <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/v5HlmJK9bdeHxN2QhaFP1ivjX3U.jpg"/>
                 <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/bXrZ5iHBEjH7WMidbUDQ0U2xbmr.jpg"/>
                 <img class="carousel-image" data-flickity-lazyload="https://image.tmdb.org/t/p/w185/eWINXglQ9JVxUuzouYK7arm9YT1.jpg"/>
@@ -82,8 +83,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" id = "closeModal" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" >Find Theater</button>
+                        <button type="button" class="btn btn-info" id = "closeModal" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-info" id = "findTheaterBtn">Find Theater</button>
                     </div>
                 </div>
             </div>
@@ -98,7 +99,6 @@
         <script src="assets/javascript/movie.js"></script>
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="" crossorigin="anonymous"></script>
-
 
     </body>
 </html>
