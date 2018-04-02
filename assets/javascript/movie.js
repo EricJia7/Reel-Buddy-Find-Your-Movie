@@ -375,6 +375,7 @@ function getFbZip(id,email) {
     currentUserZip = zip;
     tmsURL = baseUrl + todayDateLocal + "&zip=" + currentUserZip + "&api_key=" + tmsKey;
     btnDisplay(email,zip);
+    findMvLocation(tmsURL);
   });
 };
 
@@ -396,7 +397,7 @@ $("#findTheaterBtn").click(function(event){
   var selName = $(this).attr("data-mvname");
   console.log("When Find Theater Btn clicked, the zipcode is: " + selZip);
   console.log("When Find Theater Btn clicked, the movie name is: " + selName);
-  findMvLocation(tmsURL);
+  theaterDisplay(selName);
 });
 
 function findMvLocation(url) {
@@ -422,7 +423,6 @@ function findMvLocation(url) {
       getMvTheaterShowTime(singleMv);
       tmsMovies.push(singleMv);
     });
-
   });
 };
 
@@ -431,11 +431,82 @@ function getMvTheaterShowTime(obj) {
   for (var i = 0; i < showTimeArr.length; i++ ) {
     var showObj = showTimeArr[i];
     if(!(showObj.theatre.name in obj["theater"])) {
-      // selected movie theater as Object key, the value is an array
+      // selected name of movie theater as the Object key, the value is an array.
       obj['theater'][showObj.theatre.name]= [];
-      obj['theater'][showObj.theatre.name].push(showObj.dateTime);
+      obj['theater'][showObj.theatre.name].push(moment(showObj.dateTime).format('LT'));
     } else {
-      obj['theater'][showObj.theatre.name].push(showObj.dateTime);
+      obj['theater'][showObj.theatre.name].push(moment(showObj.dateTime).format('LT'));
     };
   };
+};
+
+function theaterDisplay(str) {
+  var movieName = str;
+  console.log("HiHi, this is the movie" + movieName);
+  $("#movieContainer").empty();
+  for(var i=0;i<tmsMovies.length;i++){
+    if(similarity(tmsMovies[i].title,movieName)) {
+      singleTheaterDisplay(tmsMovies[i].title,tmsMovies[i].releaseDate,tmsMovies[i].shortDescription,tmsMovies[i].theater);
+    }
+  }
+};
+
+function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
+  console.log("singleTheaterDisplay Name is: " + nameStr);
+  console.log("singleTheaterDisplay Date is: " + dateStr);
+  console.log("singleTheaterDisplay Name is: " + descriptionStr);
+  console.log(theaterArr);
+};
+
+//check the similarity between two movies names as there is no map between the movie id provided by Gracenote tmsapi and the moviedb api;
+function similarity(s1, s2) {
+  var longer;
+  var shorter;
+  if (s1.length < s2.length) {
+    longer = s2.replace(/:/g,'').replace(/ 3D/g,'');
+    shorter = s1.replace(/:/g,'').replace(/ 3D/g,'');
+  } else {
+    longer = s1.replace(/:/g,'').replace(/ 3D/g,'');
+    shorter = s2.replace(/:/g,'').replace(/ 3D/g,'');
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  var result = (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  console.log(result);
+
+  if(result>=0.8) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+//calculate the Levenshtein distance between two strings. 
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
 };
