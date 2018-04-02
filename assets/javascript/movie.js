@@ -56,8 +56,9 @@ var tmsKey1 = "k652j8wurjgybvrj3v9w65pa";
 var tmsKey1 = "22ajvn98zuj3e3646kg3rbpg";
 var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
 
-var todayDate = new Date().toISOString().slice(0,10);;
+var todayDate = new Date();
 var startDate = "2018-04-01";
+var todayDateLocal = formatDate(todayDate);
 var baseUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
 var tmsURL = "";
 // ******************************variables related with TMS APIstart
@@ -71,6 +72,16 @@ var $carousel = $('.carousel').flickity({
   autoPlay: 1500,
   pauseAutoPlayOnHover: true,
 });
+
+function formatDate(date) {
+  var d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear();
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  return [year, month, day].join('-');
+};
 
 //Function to get Youtube URL for selected movie ID
 function youtubeTrailerPlay(movieId,movieName) {
@@ -362,7 +373,7 @@ function getFbZip(id,email) {
   database.ref("Users").child(id).once("value").then(function(snapshot) {
     var zip = snapshot.val().zipcode;
     currentUserZip = zip;
-    tmsURL = baseUrl + todayDate + "&zip=" + currentUserZip + "&api_key=" + tmsKey;
+    tmsURL = baseUrl + todayDateLocal + "&zip=" + currentUserZip + "&api_key=" + tmsKey;
     btnDisplay(email,zip);
   });
 };
@@ -390,7 +401,7 @@ $("#findTheaterBtn").click(function(event){
 
 function findMvLocation(url) {
   // api can only make 50 calls per day, limited the call per each user
-  if(tmsMovies.length === 0) {
+  if(tmsMovies.length != 0) {
     return;
   };
   console.log("findMvLocation function run");
@@ -407,8 +418,24 @@ function findMvLocation(url) {
       singleMv["shortDescription"] = currElement.shortDescription;
       singleMv["releaseDate"] = currElement.releaseDate;
       singleMv["showTimes"] = currElement.showtimes;
+      singleMv["theater"] = new Object();
+      getMvTheaterShowTime(singleMv);
       tmsMovies.push(singleMv);
     });
+
   });
 };
 
+function getMvTheaterShowTime(obj) {
+  var showTimeArr = obj.showTimes;
+  for (var i = 0; i < showTimeArr.length; i++ ) {
+    var showObj = showTimeArr[i];
+    if(!(showObj.theatre.name in obj["theater"])) {
+      // selected movie theater as Object key, the value is an array
+      obj['theater'][showObj.theatre.name]= [];
+      obj['theater'][showObj.theatre.name].push(showObj.dateTime);
+    } else {
+      obj['theater'][showObj.theatre.name].push(showObj.dateTime);
+    };
+  };
+};
