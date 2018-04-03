@@ -45,11 +45,9 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-var currentUserZip;
-
 // ******************************variables related with Firebase NoSQL databse end
 
-// ******************************variables related with TMS APIstart
+// ******************************variables related with TMS API start
 var tmsMovies = new Array();
 var tmsKey = "nvp8skju7ngwxgvf56t3772x";
 var tmsKey1 = "k652j8wurjgybvrj3v9w65pa";
@@ -61,7 +59,23 @@ var startDate = "2018-04-01";
 var todayDateLocal = formatDate(todayDate);
 var baseUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
 var tmsURL = "";
-// ******************************variables related with TMS APIstart
+// ******************************variables related with TMS API end
+
+//******************************* Google Map api start
+
+var geocodeApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+var googleKey = "&key=AIzaSyD1LfJv5lgVtzf7s0z1k0IojTx8fOp7rbY"
+var gmapUrl;
+var gmapTheaterUrl;
+
+var curLocation = {
+  zip: 0,
+  lat: 0,
+  lng: 0,
+  cityName: "",
+  stateName: "",
+};
+//******************************* Google Map api end
 
 //slide show variables
 var $carousel = $('.carousel').flickity({
@@ -100,7 +114,7 @@ function youtubeTrailerPlay(movieId,movieName) {
       'frameborder': 0
     }));
     $("#findTheaterBtn")
-      .attr("data-zipcode",currentUserZip)
+      .attr("data-zipcode",curLocation.zip)
       .attr("data-mvName",movieName);
   }).fail(function(error) {
     console.log(error);
@@ -372,10 +386,12 @@ function getFbZip(id,email) {
   console.log("getFbZip is running");
   database.ref("Users").child(id).once("value").then(function(snapshot) {
     var zip = snapshot.val().zipcode;
-    currentUserZip = zip;
-    tmsURL = baseUrl + todayDateLocal + "&zip=" + currentUserZip + "&api_key=" + tmsKey;
+    curLocation.zip = zip;
+    tmsURL = baseUrl + todayDateLocal + "&zip=" + curLocation.zip + "&api_key=" + tmsKey;
+    gmapUrl= geocodeApiUrl + curLocation.zip + googleKey + "&sensor=false";
     btnDisplay(email,zip);
     findMvLocation(tmsURL);
+    getZipLatLng(gmapUrl);
   });
 };
 
@@ -391,7 +407,7 @@ $(document).on("click", "#closeModal", "#modal",function(event){
   $("#container_trailerVideo").empty();
 });
 
-
+// click the "Find Theater" button to display the list of movie theaters around the zip to show the movie
 $("#findTheaterBtn").click(function(event){
   var selZip = $(this).attr("data-zipcode");
   var selName = $(this).attr("data-mvname");
@@ -440,13 +456,30 @@ function getMvTheaterShowTime(obj) {
   };
 };
 
+function getZipLatLng(str) {
+  var geocodeApiUrl = str;
+  console.log(geocodeApiUrl)
+  $.ajax({
+    url:geocodeApiUrl,
+    method: "GET"
+  }).done(function(response){
+    result = response.results[0];
+    curLocation.lat = result["geometry"].location.lat;
+    curLocation.lng = result["geometry"].location.lng;
+    curLocation.cityName = result["address_components"][1].long_name;
+    curLocation.stateName = result["address_components"][3].short_name;
+    console.log("Current User's zip location is: " + curLocation);
+  });
+};
+
 function theaterDisplay(str) {
   var movieName = str;
   console.log("HiHi, this is the movie" + movieName);
-  $("#movieContainer").empty();
+  $("#movieContainer").hide();
   for(var i=0;i<tmsMovies.length;i++){
     if(similarity(tmsMovies[i].title,movieName)) {
       singleTheaterDisplay(tmsMovies[i].title,tmsMovies[i].releaseDate,tmsMovies[i].shortDescription,tmsMovies[i].theater);
+      initMap(Object.keys(tmsMovies[i].theater));
     }
   }
 };
@@ -456,6 +489,36 @@ function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
   console.log("singleTheaterDisplay Date is: " + dateStr);
   console.log("singleTheaterDisplay Name is: " + descriptionStr);
   console.log(theaterArr);
+};
+
+function initMap(arr) {
+  if(!arr) {
+    return;
+  };
+  var map;
+  var mapOptions = {
+      zoom: 11,
+      center: new google.maps.LatLng(curLocation.lat, curLocation.lng),
+      mapTypeId: 'roadmap'
+  };
+
+  console.log(mapOptions);
+
+  map = new google.maps.Map($('#theaterContainer')[0], mapOptions);
+
+  console.log(map);
+
+  for (var i = 0; i < arr.length; i++) {
+      $.getJSON(geocodeApiUrl + arr[i] + googleKey + '&sensor=false', null, function (response) {
+          var pLat = response.results[0]["geometry"].location.lat;
+          var pLng = response.results[0]["geometry"].location.lng;
+          var latlng = new google.maps.LatLng(pLat, pLng);
+          new google.maps.Marker({
+              position: latlng,
+              map: map
+          });
+      });
+    };
 };
 
 //check the similarity between two movies names as there is no map between the movie id provided by Gracenote tmsapi and the moviedb api;

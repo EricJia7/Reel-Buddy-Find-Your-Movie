@@ -101,6 +101,11 @@ body {
 .modal-footer {
   border: 0;
 }
+
+#theaterContainer {
+  width: 100%;
+  height: 400px;
+}
 /* h1 {
   font-size: 60px;
 }
