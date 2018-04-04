@@ -489,7 +489,31 @@ function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
   console.log("singleTheaterDisplay Date is: " + dateStr);
   console.log("singleTheaterDisplay Name is: " + descriptionStr);
   console.log(theaterArr);
+  
+  var movieTheaterList = Object.keys(theaterArr);
+
+  var table = $("<table>").addClass("table table-striped table-responsive-md btn-table");
+
+  var headerMv = $('<thead>').text(nameStr);
+
+  table.append(headerMv);
+
+  var bodyMv = '<tbody></tbody>';
+
+  for (var i = 0; i < movieTheaterList.length; i ++) {
+    var bodytr = '<tr></tr>';
+    var th  = '<th scope = "row">' + movieTheaterList[i]+ '</th>';
+    bodytr.append(th);
+    for (var j = 0; j < theaterArr[movieTheaterList[i]].length; j ++) {
+      var td = '<td><button type="button" class="btn btn-warning btn-rounded btn-sm my-0">'+ theaterArr[movieTheaterList[i]][j] + '</button></td>'
+      bodytr.append(td);
+    };
+    bodyMv.append(bodytr);
+  };
+  table.append(bodyMv);
+  $("#theaterTContainer").append(table);
 };
+
 
 function initMap(arr) {
   if(!arr) {
@@ -504,7 +528,7 @@ function initMap(arr) {
 
   console.log(mapOptions);
 
-  map = new google.maps.Map($('#theaterContainer')[0], mapOptions);
+  map = new google.maps.Map($('#theaterMapContainer')[0], mapOptions);
 
   console.log(map);
 
