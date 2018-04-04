@@ -242,7 +242,6 @@ function inTheaterDisplay() {
   $("#inTheaterBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
-    // $("#movieContainer").css("background-color", "white" );
     event.preventDefault();
     selMovies = [];
     mvGroupQuery(tmdbComing);
@@ -253,7 +252,6 @@ function pastMovieDisplay() {
   $("#pastMovieBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
-    // $("#movieContainer").css("background-color", "white" );
     event.preventDefault();
     selMovies = [];
     mvGroupQuery(tmdbNowPlay);
@@ -264,7 +262,6 @@ function mostPopularDisplay() {
   $("#mostPopularBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
-    // $("#movieContainer").css("background-color", "white" );
     event.preventDefault();
     selMovies = [];
     mvGroupQuery(tmdbPopular);
@@ -474,8 +471,8 @@ function getZipLatLng(str) {
 
 function theaterDisplay(str) {
   var movieName = str;
-  console.log("HiHi, this is the movie" + movieName);
   $("#movieContainer").hide();
+  $("#mvSlideContainer").hide();
   for(var i=0;i<tmsMovies.length;i++){
     if(similarity(tmsMovies[i].title,movieName)) {
       singleTheaterDisplay(tmsMovies[i].title,tmsMovies[i].releaseDate,tmsMovies[i].shortDescription,tmsMovies[i].theater);
@@ -485,27 +482,18 @@ function theaterDisplay(str) {
 };
 
 function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
-  console.log("singleTheaterDisplay Name is: " + nameStr);
-  console.log("singleTheaterDisplay Date is: " + dateStr);
-  console.log("singleTheaterDisplay Name is: " + descriptionStr);
-  console.log(theaterArr);
-  
   var movieTheaterList = Object.keys(theaterArr);
-
-  var table = $("<table>").addClass("table table-striped table-responsive-md btn-table");
-
-  var headerMv = $('<thead>').text(nameStr);
-
+  var table = $("<table>").addClass("table table-striped table-responsive-md table-hover");
+  var headerMv = $('<thead>').addClass("text-uppercase text-center").text(nameStr);
   table.append(headerMv);
-
-  var bodyMv = '<tbody></tbody>';
+  var bodyMv = $('<tbody>');
 
   for (var i = 0; i < movieTheaterList.length; i ++) {
-    var bodytr = '<tr></tr>';
-    var th  = '<th scope = "row">' + movieTheaterList[i]+ '</th>';
+    var bodytr = $('<tr>');
+    var th  = $('<th>').attr("scope","row").text(movieTheaterList[i]);
     bodytr.append(th);
     for (var j = 0; j < theaterArr[movieTheaterList[i]].length; j ++) {
-      var td = '<td><button type="button" class="btn btn-warning btn-rounded btn-sm my-0">'+ theaterArr[movieTheaterList[i]][j] + '</button></td>'
+      var td = '<td><button type="button" class="btn btn-warning btn-rounded my-0">'+ theaterArr[movieTheaterList[i]][j] + '</button></td>'
       bodytr.append(td);
     };
     bodyMv.append(bodytr);
@@ -513,7 +501,6 @@ function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
   table.append(bodyMv);
   $("#theaterTContainer").append(table);
 };
-
 
 function initMap(arr) {
   if(!arr) {
