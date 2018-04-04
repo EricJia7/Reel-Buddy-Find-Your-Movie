@@ -45,11 +45,9 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-var currentUserZip;
-
 // ******************************variables related with Firebase NoSQL databse end
 
-// ******************************variables related with TMS APIstart
+// ******************************variables related with TMS API start
 var tmsMovies = new Array();
 var tmsKey = "nvp8skju7ngwxgvf56t3772x";
 var tmsKey1 = "k652j8wurjgybvrj3v9w65pa";
@@ -61,7 +59,23 @@ var startDate = "2018-04-01";
 var todayDateLocal = formatDate(todayDate);
 var baseUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
 var tmsURL = "";
-// ******************************variables related with TMS APIstart
+// ******************************variables related with TMS API end
+
+//******************************* Google Map api start
+
+var geocodeApiUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+var googleKey = "&key=AIzaSyD1LfJv5lgVtzf7s0z1k0IojTx8fOp7rbY"
+var gmapUrl;
+var gmapTheaterUrl;
+
+var curLocation = {
+  zip: 0,
+  lat: 0,
+  lng: 0,
+  cityName: "",
+  stateName: "",
+};
+//******************************* Google Map api end
 
 //slide show variables
 var $carousel = $('.carousel').flickity({
@@ -100,7 +114,7 @@ function youtubeTrailerPlay(movieId,movieName) {
       'frameborder': 0
     }));
     $("#findTheaterBtn")
-      .attr("data-zipcode",currentUserZip)
+      .attr("data-zipcode",curLocation.zip)
       .attr("data-mvName",movieName);
   }).fail(function(error) {
     console.log(error);
@@ -228,7 +242,6 @@ function inTheaterDisplay() {
   $("#inTheaterBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
-    // $("#movieContainer").css("background-color", "white" );
     event.preventDefault();
     selMovies = [];
     mvGroupQuery(tmdbComing);
@@ -239,7 +252,6 @@ function pastMovieDisplay() {
   $("#pastMovieBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
-    // $("#movieContainer").css("background-color", "white" );
     event.preventDefault();
     selMovies = [];
     mvGroupQuery(tmdbNowPlay);
@@ -250,7 +262,6 @@ function mostPopularDisplay() {
   $("#mostPopularBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
-    // $("#movieContainer").css("background-color", "white" );
     event.preventDefault();
     selMovies = [];
     mvGroupQuery(tmdbPopular);
@@ -372,9 +383,12 @@ function getFbZip(id,email) {
   console.log("getFbZip is running");
   database.ref("Users").child(id).once("value").then(function(snapshot) {
     var zip = snapshot.val().zipcode;
-    currentUserZip = zip;
-    tmsURL = baseUrl + todayDateLocal + "&zip=" + currentUserZip + "&api_key=" + tmsKey;
+    curLocation.zip = zip;
+    tmsURL = baseUrl + todayDateLocal + "&zip=" + curLocation.zip + "&api_key=" + tmsKey;
+    gmapUrl= geocodeApiUrl + curLocation.zip + googleKey + "&sensor=false";
     btnDisplay(email,zip);
+    findMvLocation(tmsURL);
+    getZipLatLng(gmapUrl);
   });
 };
 
@@ -390,13 +404,13 @@ $(document).on("click", "#closeModal", "#modal",function(event){
   $("#container_trailerVideo").empty();
 });
 
-
+// click the "Find Theater" button to display the list of movie theaters around the zip to show the movie
 $("#findTheaterBtn").click(function(event){
   var selZip = $(this).attr("data-zipcode");
   var selName = $(this).attr("data-mvname");
   console.log("When Find Theater Btn clicked, the zipcode is: " + selZip);
   console.log("When Find Theater Btn clicked, the movie name is: " + selName);
-  findMvLocation(tmsURL);
+  theaterDisplay(selName);
 });
 
 function findMvLocation(url) {
@@ -422,7 +436,6 @@ function findMvLocation(url) {
       getMvTheaterShowTime(singleMv);
       tmsMovies.push(singleMv);
     });
-
   });
 };
 
@@ -431,11 +444,143 @@ function getMvTheaterShowTime(obj) {
   for (var i = 0; i < showTimeArr.length; i++ ) {
     var showObj = showTimeArr[i];
     if(!(showObj.theatre.name in obj["theater"])) {
-      // selected movie theater as Object key, the value is an array
+      // selected name of movie theater as the Object key, the value is an array.
       obj['theater'][showObj.theatre.name]= [];
-      obj['theater'][showObj.theatre.name].push(showObj.dateTime);
+      obj['theater'][showObj.theatre.name].push(moment(showObj.dateTime).format('LT'));
     } else {
-      obj['theater'][showObj.theatre.name].push(showObj.dateTime);
+      obj['theater'][showObj.theatre.name].push(moment(showObj.dateTime).format('LT'));
     };
   };
+};
+
+function getZipLatLng(str) {
+  var geocodeApiUrl = str;
+  console.log(geocodeApiUrl)
+  $.ajax({
+    url:geocodeApiUrl,
+    method: "GET"
+  }).done(function(response){
+    result = response.results[0];
+    curLocation.lat = result["geometry"].location.lat;
+    curLocation.lng = result["geometry"].location.lng;
+    curLocation.cityName = result["address_components"][1].long_name;
+    curLocation.stateName = result["address_components"][3].short_name;
+    console.log("Current User's zip location is: " + curLocation);
+  });
+};
+
+function theaterDisplay(str) {
+  var movieName = str;
+  $("#movieContainer").hide();
+  $("#mvSlideContainer").hide();
+  for(var i=0;i<tmsMovies.length;i++){
+    if(similarity(tmsMovies[i].title,movieName)) {
+      singleTheaterDisplay(tmsMovies[i].title,tmsMovies[i].releaseDate,tmsMovies[i].shortDescription,tmsMovies[i].theater);
+      initMap(Object.keys(tmsMovies[i].theater));
+    }
+  }
+};
+
+function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
+  var movieTheaterList = Object.keys(theaterArr);
+  var table = $("<table>").addClass("table table-striped table-responsive-md table-hover");
+  var headerMv = $('<thead>').addClass("text-uppercase text-center").text(nameStr);
+  table.append(headerMv);
+  var bodyMv = $('<tbody>');
+
+  for (var i = 0; i < movieTheaterList.length; i ++) {
+    var bodytr = $('<tr>');
+    var th  = $('<th>').attr("scope","row").text(movieTheaterList[i]);
+    bodytr.append(th);
+    for (var j = 0; j < theaterArr[movieTheaterList[i]].length; j ++) {
+      var td = '<td><button type="button" class="btn btn-warning btn-rounded my-0">'+ theaterArr[movieTheaterList[i]][j] + '</button></td>'
+      bodytr.append(td);
+    };
+    bodyMv.append(bodytr);
+  };
+  table.append(bodyMv);
+  $("#theaterTContainer").append(table);
+};
+
+function initMap(arr) {
+  if(!arr) {
+    return;
+  };
+  var map;
+  var mapOptions = {
+      zoom: 11,
+      center: new google.maps.LatLng(curLocation.lat, curLocation.lng),
+      mapTypeId: 'roadmap'
+  };
+
+  console.log(mapOptions);
+
+  map = new google.maps.Map($('#theaterMapContainer')[0], mapOptions);
+
+  console.log(map);
+
+  for (var i = 0; i < arr.length; i++) {
+      $.getJSON(geocodeApiUrl + arr[i] + googleKey + '&sensor=false', null, function (response) {
+          var pLat = response.results[0]["geometry"].location.lat;
+          var pLng = response.results[0]["geometry"].location.lng;
+          var latlng = new google.maps.LatLng(pLat, pLng);
+          new google.maps.Marker({
+              position: latlng,
+              map: map
+          });
+      });
+    };
+};
+
+//check the similarity between two movies names as there is no map between the movie id provided by Gracenote tmsapi and the moviedb api;
+function similarity(s1, s2) {
+  var longer;
+  var shorter;
+  if (s1.length < s2.length) {
+    longer = s2.replace(/:/g,'').replace(/ 3D/g,'');
+    shorter = s1.replace(/:/g,'').replace(/ 3D/g,'');
+  } else {
+    longer = s1.replace(/:/g,'').replace(/ 3D/g,'');
+    shorter = s2.replace(/:/g,'').replace(/ 3D/g,'');
+  }
+  var longerLength = longer.length;
+  if (longerLength == 0) {
+    return 1.0;
+  }
+  var result = (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  console.log(result);
+
+  if(result>=0.8) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+//calculate the Levenshtein distance between two strings. 
+function editDistance(s1, s2) {
+  s1 = s1.toLowerCase();
+  s2 = s2.toLowerCase();
+
+  var costs = new Array();
+  for (var i = 0; i <= s1.length; i++) {
+    var lastValue = i;
+    for (var j = 0; j <= s2.length; j++) {
+      if (i == 0)
+        costs[j] = j;
+      else {
+        if (j > 0) {
+          var newValue = costs[j - 1];
+          if (s1.charAt(i - 1) != s2.charAt(j - 1))
+            newValue = Math.min(Math.min(newValue, lastValue),
+              costs[j]) + 1;
+          costs[j - 1] = lastValue;
+          lastValue = newValue;
+        }
+      }
+    }
+    if (i > 0)
+      costs[s2.length] = lastValue;
+  }
+  return costs[s2.length];
 };
