@@ -273,8 +273,8 @@ function btnDisplay(emailStr,zipStr) {
   var email = emailStr;
   var name = email.substring(0, email.lastIndexOf("@"));
   $("#sign_in_form").remove();
-  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 text-capitalize" id = "helloDisplay">Hi  ' + name + '  from  ' + zipStr + '</div>');
-  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12"> <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button> </div>');
+  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12" id = "helloDisplay">Hi  ' + name + '  from  ' + zipStr + '</div>');
+  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 btnStyle"> <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button> </div>');
   inTheaterDisplay();
   pastMovieDisplay();
   mostPopularDisplay();
@@ -311,6 +311,7 @@ function alertMessage(str) {
   $("#aletMsg")
     .css("color","red")
     .css("margin-bottom","2em")
+    .attr("id", "alerttext")
     .addClass("text-center text-uppercase align-middle alertDisplay")
     .text(str);
 };
@@ -404,13 +405,22 @@ $(document).on("click", "#closeModal", "#modal",function(event){
   $("#container_trailerVideo").empty();
 });
 
+// when click the Back button show the list of movie again. 
+$(document).on("click", "#backBtn",function(event){
+  $("#theaterMapContainer").empty();
+  $("#theaterTContainer").empty();
+  $("#headerRow").empty();
+  $("#goBackRow").empty();
+  $("#movieContainer").show();
+  $("#mvSlideContainer").show();
+});
+
 // click the "Find Theater" button to display the list of movie theaters around the zip to show the movie
 $("#findTheaterBtn").click(function(event){
   var selZip = $(this).attr("data-zipcode");
   var selName = $(this).attr("data-mvname");
-  console.log("When Find Theater Btn clicked, the zipcode is: " + selZip);
-  console.log("When Find Theater Btn clicked, the movie name is: " + selName);
   theaterDisplay(selName);
+  $("#modalVideo iframe").attr("src","");
 });
 
 function findMvLocation(url) {
@@ -418,7 +428,6 @@ function findMvLocation(url) {
   if(tmsMovies.length != 0) {
     return;
   };
-  console.log("findMvLocation function run");
   var urlLocation = url;
   $.ajax({
     url: urlLocation,
@@ -473,34 +482,71 @@ function theaterDisplay(str) {
   var movieName = str;
   $("#movieContainer").hide();
   $("#mvSlideContainer").hide();
+  $("#headerRow").text("Find Movie Theaters & Showtimes");
+  var btn = $("<button>").addClass("btn-block btn-danger btn-rounded btnStyle").attr("id","backBtn").text("Go Back To Movie List");
+  $("#goBackRow").append(btn);
+  var j = 0;
   for(var i=0;i<tmsMovies.length;i++){
     if(similarity(tmsMovies[i].title,movieName)) {
       singleTheaterDisplay(tmsMovies[i].title,tmsMovies[i].releaseDate,tmsMovies[i].shortDescription,tmsMovies[i].theater);
-      initMap(Object.keys(tmsMovies[i].theater));
-    }
-  }
+      j++;
+      if(tmsMovies[i].theater) {
+        initMap(Object.keys(tmsMovies[i].theater));
+      };
+    }; 
+  };
+  if (j === 0) {
+    $("#headerRow").text("Sorry movie isn't available in your area");
+  };
 };
 
+// Display method 1 using table format
+// function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
+//   var movieTheaterList = Object.keys(theaterArr);
+//   var table = $("<table>").addClass("table table-striped table-responsive-md table-hover");
+//   var headerMv = $('<thead>').addClass("text-uppercase text-center").text(nameStr);
+//   table.append(headerMv);
+//   var bodyMv = $('<tbody>');
+
+//   for (var i = 0; i < movieTheaterList.length; i ++) {
+//     var bodytr = $('<tr>');
+//     var th  = $('<th>').addClass("theaterName").attr("scope","row").text(movieTheaterList[i]);
+//     bodytr.append(th);
+//     for (var j = 0; j < theaterArr[movieTheaterList[i]].length; j ++) {
+//       var td = '<td><button type="button" class="btn btn-warning btn-rounded my-0 mvTimeBtn">'+ theaterArr[movieTheaterList[i]][j] + '</button></td>';
+//       bodytr.append(td);
+//     };
+//     bodyMv.append(bodytr);
+//   };
+//   table.append(bodyMv);
+//   $("#theaterTContainer").append(table);
+// };
+
+// Display method 2 using button group
 function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
   var movieTheaterList = Object.keys(theaterArr);
-  var table = $("<table>").addClass("table table-striped table-responsive-md table-hover");
-  var headerMv = $('<thead>').addClass("text-uppercase text-center").text(nameStr);
-  table.append(headerMv);
-  var bodyMv = $('<tbody>');
+  var theaterWrap = $('<div>').addClass("row");
+  var mvName = $('<div>').addClass("text-capitalize text-center col-md-12").addClass("movieNameHeader").text(nameStr);
+  theaterWrap.append(mvName);
+  var theaterSingle = $('<div>').addClass("col-md-12");
 
   for (var i = 0; i < movieTheaterList.length; i ++) {
-    var bodytr = $('<tr>');
-    var th  = $('<th>').attr("scope","row").text(movieTheaterList[i]);
-    bodytr.append(th);
+    var tempRow = $("<div>").addClass("row mvRow");
+    var btnGp = $('<div>').addClass("btn-group col-md-8");
+    var theaterCol  = $('<div>').addClass("theaterName col-md-4").text(movieTheaterList[i]);
+    tempRow.append(theaterCol);
     for (var j = 0; j < theaterArr[movieTheaterList[i]].length; j ++) {
-      var td = '<td><button type="button" class="btn btn-warning btn-rounded my-0">'+ theaterArr[movieTheaterList[i]][j] + '</button></td>'
-      bodytr.append(td);
+      var btn = '<button type="button" class="btn btn-sm btn-warning btn-rounded mvTimeBtn" id = "theaterTimeBtn">'+ theaterArr[movieTheaterList[i]][j] + '</button>';
+      btnGp.append(btn);
     };
-    bodyMv.append(bodytr);
+    tempRow.append(btnGp);
+    theaterSingle.append(tempRow);
+    tempRow = $("<div>").addClass("row");
   };
-  table.append(bodyMv);
-  $("#theaterTContainer").append(table);
+  theaterWrap.append(theaterSingle);
+  $("#theaterTContainer").append(theaterWrap);
 };
+
 
 function initMap(arr) {
   if(!arr) {
@@ -512,13 +558,7 @@ function initMap(arr) {
       center: new google.maps.LatLng(curLocation.lat, curLocation.lng),
       mapTypeId: 'roadmap'
   };
-
-  console.log(mapOptions);
-
   map = new google.maps.Map($('#theaterMapContainer')[0], mapOptions);
-
-  console.log(map);
-
   for (var i = 0; i < arr.length; i++) {
       $.getJSON(geocodeApiUrl + arr[i] + googleKey + '&sensor=false', null, function (response) {
           var pLat = response.results[0]["geometry"].location.lat;
@@ -542,26 +582,23 @@ function similarity(s1, s2) {
   } else {
     longer = s1.replace(/:/g,'').replace(/ 3D/g,'');
     shorter = s2.replace(/:/g,'').replace(/ 3D/g,'');
-  }
+  };
   var longerLength = longer.length;
   if (longerLength == 0) {
     return 1.0;
-  }
+  };
   var result = (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
-  console.log(result);
-
-  if(result>=0.8) {
+  if(result>=0.9) {
     return true;
   } else {
     return false;
-  }
+  };
 };
 
 //calculate the Levenshtein distance between two strings. 
 function editDistance(s1, s2) {
   s1 = s1.toLowerCase();
   s2 = s2.toLowerCase();
-
   var costs = new Array();
   for (var i = 0; i <= s1.length; i++) {
     var lastValue = i;
@@ -576,11 +613,11 @@ function editDistance(s1, s2) {
               costs[j]) + 1;
           costs[j - 1] = lastValue;
           lastValue = newValue;
-        }
-      }
-    }
+        };
+      };
+    };
     if (i > 0)
       costs[s2.length] = lastValue;
-  }
+  };
   return costs[s2.length];
 };

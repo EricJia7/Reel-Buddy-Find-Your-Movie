@@ -84,13 +84,27 @@ body {
 
 .submitBtn {
   font-family: 'Roboto', sans-serif;
+  margin:1em 0;
 }
 
 .inputForm {
   font-family: 'Roboto', sans-serif;
 }
 
+#zipInput {
+  margin: 0.5em 0;
+}
+
+.alerttext {
+  margin: 0.5em 0;
+}
+
+
 .alertDisplay {
+  font-family: 'Roboto', sans-serif;
+}
+
+.btnStyle {
   font-family: 'Roboto', sans-serif;
 }
 
@@ -103,10 +117,50 @@ body {
 }
 
 #theaterMapContainer {
-  width: 100%;
+  width: 95%;
   height: 380px;
 }
 
 #theaterTContainer {
   color:white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.row .justify-content-md-cente {
+  margin-top: 10px;
+}
+
+.mvTimeBtn {
+  width: 95px;
+}
+
+.theaterName {
+  width:430px;
+  padding: 5px 0;
+  font-size: 1.2em;
+}
+
+#headerRow {
+  font-size: 2em;
+  color:white;
+  font-family: 'Roboto', sans-serif;
+}
+
+#theaterTimeBtn {
+  margin: 0 0 0 5px;
+}
+
+.movieNameHeader {
+  font-size: 1.6em;
+  color:white;
+  font-family: 'Roboto', sans-serif;
+  margin: 0.5em 0;
+}
+
+.mvRow {
+  margin-top: 5px;
+}
+
+#backBtn {
+  margin: 1em 0;
 }
