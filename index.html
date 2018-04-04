@@ -38,7 +38,7 @@
                                 <input type="password" class="form-control inputForm" id="passwordInput" placeholder="Password">
                             </div>
                         </div>
-                        <br>
+
                         <div class="row">
                             <div class="col-md-3" id="divZipIn"></div>
                             <div class="col-md-5" id="aletMsg"></div>
@@ -71,10 +71,20 @@
             <div class="row" id="movieContainer"></div>
         </div>
 
-        <div class="container">
-            <div class="breakRow"></div>
-            <div class="row" id="theaterMapContainer"></div>
-            <div class="row" id="theaterTContainer"></div>
+        <div class="container" id = "movie-showtimes">
+            <div class="row">
+                <div class = "col-md-12 text-center font-weight-bold" id= "headerRow"></div>
+                <div class="col-md-4"></div>
+                <div class = "col-md-4 text-center" id= "goBackRow"></div>
+                <div class="col-md-4"></div>
+            </div>
+
+            <div class="row justify-content-md-center">
+                <div class = "col-md-12" id="theaterMapContainer"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" id="theaterTContainer"></div>
+            </div>
         </div>
         <!-- MODAL -->
         <div class="modal fade modalIndicator" id="modalVideo" tabindex="-1" role="dialog" aria-labelledby="modal-video-label" aria-hidden="true">
