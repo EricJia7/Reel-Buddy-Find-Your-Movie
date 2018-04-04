@@ -98,7 +98,7 @@ var movieIdListBl = [];
 
 var locMovies = [{}];
 var locationKey1 = "nvp8skju7ngwxgvf56t3772x";
-var startDate = "2018-03-31";
+var startDate = "2018-04-03";
 var zipCode = "08840";
 var locationURL = "http://data.tmsapi.com/v1.1/movies/showings?startDate=" + startDate + "&zip=" + zipCode + "&api_key=" + locationKey1;
 // var responseLocation = [];
