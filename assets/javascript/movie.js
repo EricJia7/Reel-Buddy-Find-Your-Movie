@@ -57,7 +57,7 @@ var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
 var todayDate = new Date();
 var startDate = "2018-04-01";
 var todayDateLocal = formatDate(todayDate);
-var baseUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
+var baseUrl = "https://data.tmsapi.com/v1.1/movies/showings?startDate=";
 var tmsURL = "";
 // ******************************variables related with TMS API end
 
@@ -555,7 +555,7 @@ function shortenMvName(str) {
 
 //create a single marker for each movie theater name 
 function singleMarker(obj,str1,str2) {
-  $.getJSON(geocodeApiUrl + str1 + googleKey + '&sensor=false', null).done(function (response) {
+  $.getJSON(geocodeApiUrl + str1.replace(/ &/g, "").replace(/,/g, "") + googleKey + '&sensor=false', null).done(function (response) {
     var pLat = response.results[0]["geometry"].location.lat;
     var pLng = response.results[0]["geometry"].location.lng;
     var latlng = new google.maps.LatLng(pLat, pLng);
