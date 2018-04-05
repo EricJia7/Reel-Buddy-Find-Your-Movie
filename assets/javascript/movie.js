@@ -57,7 +57,7 @@ var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
 var todayDate = new Date();
 var startDate = "2018-04-01";
 var todayDateLocal = formatDate(todayDate);
-var baseUrl = "http://data.tmsapi.com/v1.1/movies/showings?startDate=";
+var baseUrl = "https://data.tmsapi.com/v1.1/movies/showings?startDate=";
 var tmsURL = "";
 // ******************************variables related with TMS API end
 
@@ -157,9 +157,7 @@ function mvGroupQuery(url) {
 
 //This Function hasn't been used, it can check is the movies were made by a selected group of companies.
 function mvSingleQuery(id) {
-  console.log("function mvSingleQuery(id) called")
   var urlInputSingle = singleMv + id + tmdbKey;
-  console.log("urlInputSingle")
   $.ajax({
     url:urlInputSingle,
     method: "GET",
@@ -410,6 +408,7 @@ $(document).on("click", "#backBtn",function(event){
   $("#theaterMapContainer").empty();
   $("#theaterTContainer").empty();
   $("#headerRow").empty();
+  $("#backBtn").empty();
   $("#goBackRow").empty();
   $("#movieContainer").show();
   $("#mvSlideContainer").show();
@@ -482,7 +481,7 @@ function theaterDisplay(str) {
   var movieName = str;
   $("#movieContainer").hide();
   $("#mvSlideContainer").hide();
-  $("#headerRow").text("Find Movie Theaters & Showtimes");
+  $("#headerRow").text("Find Movie Theaters & Showtimes on "+moment(todayDateLocal).format('ll'));
   var btn = $("<button>").addClass("btn-block btn-danger btn-rounded btnStyle").attr("id","backBtn").text("Go Back To Movie List");
   $("#goBackRow").append(btn);
   var j = 0;
@@ -507,7 +506,6 @@ function theaterDisplay(str) {
 //   var headerMv = $('<thead>').addClass("text-uppercase text-center").text(nameStr);
 //   table.append(headerMv);
 //   var bodyMv = $('<tbody>');
-
 //   for (var i = 0; i < movieTheaterList.length; i ++) {
 //     var bodytr = $('<tr>');
 //     var th  = $('<th>').addClass("theaterName").attr("scope","row").text(movieTheaterList[i]);
@@ -547,11 +545,32 @@ function singleTheaterDisplay(nameStr,dateStr,descriptionStr,theaterArr) {
   $("#theaterTContainer").append(theaterWrap);
 };
 
+//Short the theater full name and add it to the google map marker text
+function shortenMvName(str) {
+  if(!str) {return;};
+  var fullName = str;
+  var fullNameArr = fullName.split(" ");
+  return fullNameArr[0] + " " + fullNameArr[fullNameArr.length-1]
+};
+
+//create a single marker for each movie theater name 
+function singleMarker(obj,str1,str2) {
+  $.getJSON(geocodeApiUrl + str1.replace(/ &/g, "").replace(/,/g, "") + googleKey + '&sensor=false', null).done(function (response) {
+    var pLat = response.results[0]["geometry"].location.lat;
+    var pLng = response.results[0]["geometry"].location.lng;
+    var latlng = new google.maps.LatLng(pLat, pLng);
+    new google.maps.Marker({
+        position: latlng,
+        map: obj,
+        icon: "https://chart.googleapis.com/chart?chst=d_bubble_icon_text_small&chld=glyphish_movie1|bb|" + str2 + "|ffc107|000000",            
+        animation: google.maps.Animation.DROP
+      });
+    });
+};
 
 function initMap(arr) {
-  if(!arr) {
-    return;
-  };
+  if(!arr) {return;};
+  var mvNameList = arr;
   var map;
   var mapOptions = {
       zoom: 11,
@@ -559,16 +578,9 @@ function initMap(arr) {
       mapTypeId: 'roadmap'
   };
   map = new google.maps.Map($('#theaterMapContainer')[0], mapOptions);
-  for (var i = 0; i < arr.length; i++) {
-      $.getJSON(geocodeApiUrl + arr[i] + googleKey + '&sensor=false', null, function (response) {
-          var pLat = response.results[0]["geometry"].location.lat;
-          var pLng = response.results[0]["geometry"].location.lng;
-          var latlng = new google.maps.LatLng(pLat, pLng);
-          new google.maps.Marker({
-              position: latlng,
-              map: map
-          });
-      });
+  for (var i = 0; i < mvNameList.length; i++) {
+      var shortName = shortenMvName(mvNameList[i]);
+      singleMarker(map,mvNameList[i],shortName);
     };
 };
 
