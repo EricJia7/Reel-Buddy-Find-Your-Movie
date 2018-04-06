@@ -54,6 +54,9 @@ var tmsKey1 = "k652j8wurjgybvrj3v9w65pa";
 var tmsKey1 = "22ajvn98zuj3e3646kg3rbpg";
 var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
 
+//Range to search from initial location. Defaults to 5 miles. Maximum 100 mi (160 km).
+var selRadius = "7";
+
 var todayDate = new Date();
 var startDate = "2018-04-01";
 var todayDateLocal = formatDate(todayDate);
@@ -383,7 +386,7 @@ function getFbZip(id,email) {
   database.ref("Users").child(id).once("value").then(function(snapshot) {
     var zip = snapshot.val().zipcode;
     curLocation.zip = zip;
-    tmsURL = baseUrl + todayDateLocal + "&zip=" + curLocation.zip + "&api_key=" + tmsKey;
+    tmsURL = baseUrl + todayDateLocal + "&zip=" + curLocation.zip + "&radius=" + selRadius + "&api_key=" + tmsKey;
     gmapUrl= geocodeApiUrl + curLocation.zip + googleKey + "&sensor=false";
     btnDisplay(email,zip);
     findMvLocation(tmsURL);
@@ -485,17 +488,24 @@ function theaterDisplay(str) {
   var btn = $("<button>").addClass("btn-block btn-danger btn-rounded btnStyle").attr("id","backBtn").text("Go Back To Movie List");
   $("#goBackRow").append(btn);
   var j = 0;
+  var mapOptions = {
+    zoom: 10,
+    center: new google.maps.LatLng(curLocation.lat, curLocation.lng),
+    mapTypeId: 'roadmap'
+  };
+  var map = new google.maps.Map($('#theaterMapContainer')[0], mapOptions);
   for(var i=0;i<tmsMovies.length;i++){
     if(similarity(tmsMovies[i].title,movieName)) {
       singleTheaterDisplay(tmsMovies[i].title,tmsMovies[i].releaseDate,tmsMovies[i].shortDescription,tmsMovies[i].theater);
       j++;
       if(tmsMovies[i].theater) {
-        initMap(Object.keys(tmsMovies[i].theater));
+        initMap(Object.keys(tmsMovies[i].theater),map);
       };
     }; 
   };
   if (j === 0) {
     $("#headerRow").text("Sorry movie isn't available in your area");
+    $("#theaterMapContainer").empty();
   };
 };
 
@@ -568,16 +578,11 @@ function singleMarker(obj,str1,str2) {
     });
 };
 
-function initMap(arr) {
+function initMap(arr, obj) {
   if(!arr) {return;};
   var mvNameList = arr;
-  var map;
-  var mapOptions = {
-      zoom: 11,
-      center: new google.maps.LatLng(curLocation.lat, curLocation.lng),
-      mapTypeId: 'roadmap'
-  };
-  map = new google.maps.Map($('#theaterMapContainer')[0], mapOptions);
+  var map = obj;
+
   for (var i = 0; i < mvNameList.length; i++) {
       var shortName = shortenMvName(mvNameList[i]);
       singleMarker(map,mvNameList[i],shortName);
