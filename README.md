@@ -1,21 +1,29 @@
 # Register and Search The Movies Being Played In Your Area
 
-<h1><strong>Reel Buddy Movie Search Webiste</strong></h1>
+<h2><strong>Reel Buddy Movie Search Webiste</strong></h2>
 
-<h2>Live View --> https://s3.amazonaws.com/reel-buddy/index.html
+<h3>Live View --> https://s3.amazonaws.com/reel-buddy/index.html
 
-<h2><strong>Screen Shots</strong></h2>: 
-<div class = "container"> 
-    <div class = "row">
-    <div class = "col-md-6"><img src="assets/images/screenshot1.png" alt="1"></div>
-    <div class = "col-md-6"><img src="assets/images/screenshot2.png" alt="2"></div>
-    <div class = "col-md-6"><img src="assets/images/screenshot3.png" alt="3"></div>
-    <div class = "col-md-6"><img src="assets/images/screenshot4.png" alt="4"></div>
+<h2><strong>Screen Shots</strong></h2>
 
-    </div>
-</div>
+Main | Sign in/Sign Up page
+-------------|--------
+<img src="assets/images/screenshot1.png" alt="1">
 
-<h2><strong>Technologies Used</strong></h2>: 
+Search | Once log in
+-------------|--------
+<img src="assets/images/screenshot2.png" alt="2">
+
+Search | Trailer Play
+-------------|--------
+<img src="assets/images/screenshot3.png" alt="3">
+
+Result | Theater and Show times
+-------------|--------
+<img src="assets/images/screenshot4.png" alt="4">
+
+
+<h2><strong>Technologies Used</strong></h2>
 <ul>
     <li>HTML</li>
     <li>CSS and Flickity CSS</li>
@@ -25,9 +33,9 @@
     <li>Firebase for user registration,login and persistant storage related with registered user</li>
 </ul>  
 
-<h2><strong>Prerequiremnt</strong></h2>: None.
+<h2><strong>Prerequiremnt</strong></h2> None.
 
-<h2><strong>How to Run</strong></h2>: 
+<h2><strong>How to Run</strong></h2>
 <ol>
     <li> click the Live View link above or 
     <li> clone this file directly to local repository or just simply download the code;
@@ -38,7 +46,7 @@
     <li> If interested, click "Find Theater" button and it will list all the movie theater around your registed zipcode and the show times for selected movie.
 </ol>
 
-<h2><strong>Deployed With</strong></h2>: 
+<h2><strong>Deployed With</strong></h2>
 <ul>
     <li> AWS S3 hosted website. 
 </ul>
