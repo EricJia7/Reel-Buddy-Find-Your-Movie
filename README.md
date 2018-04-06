@@ -8,11 +8,11 @@
 
 Sign in/Sign Up page | Seach Result Display
 -------------|--------
-![Main Image](/assets/images/screenshot1.png?raw=true"screenshot1.png") | ![Player 1 Enters Image](/assets/images/screenshot2.png?raw=true"screenshot2.png")
+![Sign in Image](/assets/images/screenshot0.png?raw=true"screenshot0.png") | ![Seach Result Image](/assets/images/screenshot2.png?raw=true"screenshot2.png")
 
 Movie Trailer Play |  Theater Locations Map and Show Times
 -------------|--------
-![Player 2 Enters Image](/assets/images/screenshot3.png?raw=true"screenshot3.png") | ![Player 1 Selects Image](/assets/images/screenshot4.png?raw=true"screenshot4.png")
+![Movie Trailer Image](/assets/images/screenshot3.png?raw=true"screenshot3.png") | ![Theater Locations](/assets/images/screenshot4.png?raw=true"screenshot4.png")
 
 <h2><strong>Technologies Used</strong></h2>
 <ul>
