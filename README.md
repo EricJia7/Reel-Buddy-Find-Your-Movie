@@ -6,21 +6,14 @@
 
 <h2><strong>Screen Shots</strong></h2>
 
-Main | Sign in/Sign Up page
+Main Sign in/Sign Up page | Search Once log in or log on
 -------------|--------
-<img src="assets/images/screenshot1.png" alt="1">
+![Main Image](/assets/images/screenshot1.png?raw=true"screenshot1.png") | ![Player 1 Enters Image](/assets/images/screenshot2.png?raw=true"screenshot2.png")
 
-Search | Once log in
+Search Trailer Play | Result Theater and Show times
 -------------|--------
-<img src="assets/images/screenshot2.png" alt="2">
+![Player 2 Enters Image](/assets/images/screenshot3.png?raw=true"screenshot3.png") | ![Player 1 Selects Image](/assets/images/screenshot4.png?raw=true"screenshot4.png")
 
-Search | Trailer Play
--------------|--------
-<img src="assets/images/screenshot3.png" alt="3">
-
-Result | Theater and Show times
--------------|--------
-<img src="assets/images/screenshot4.png" alt="4">
 
 
 <h2><strong>Technologies Used</strong></h2>
