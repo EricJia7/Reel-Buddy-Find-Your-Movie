@@ -2,7 +2,9 @@
 
 <h2><strong>Reel Buddy Movie Search Webiste</strong></h2>
 
-<h3>Live View --> https://s3.amazonaws.com/reel-buddy/index.html
+<h3>Live View Link 1 (Hosted by AWS S3)--> http://reel-buddy.s3-website-us-east-1.amazonaws.com</h3>
+<h3>Live View Link 2 (CDN)--> https://d1iwhi8wwdofl6.cloudfront.net/index.html</h3>
+<h3>Live View Link 3 --> http://www.reel-buddy.com/ </h3>
 
 <h2><strong>Screen Shots</strong></h2>
 
