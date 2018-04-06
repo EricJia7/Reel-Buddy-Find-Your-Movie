@@ -6,15 +6,13 @@
 
 <h2><strong>Screen Shots</strong></h2>
 
-Main Sign in/Sign Up page | Search Once log in or log on
+Sign in/Sign Up page | Seach Result Display
 -------------|--------
 ![Main Image](/assets/images/screenshot1.png?raw=true"screenshot1.png") | ![Player 1 Enters Image](/assets/images/screenshot2.png?raw=true"screenshot2.png")
 
-Search Trailer Play | Result Theater and Show times
+Movie Trailer Play |  Theater Locations Map and Show Times
 -------------|--------
 ![Player 2 Enters Image](/assets/images/screenshot3.png?raw=true"screenshot3.png") | ![Player 1 Selects Image](/assets/images/screenshot4.png?raw=true"screenshot4.png")
-
-
 
 <h2><strong>Technologies Used</strong></h2>
 <ul>
@@ -44,4 +42,4 @@ Search Trailer Play | Result Theater and Show times
     <li> AWS S3 hosted website. 
 </ul>
 
-Enjoy!
+<h2><strong>Enjoy!</strong></h2>
