@@ -55,7 +55,7 @@ var tmsKey1 = "22ajvn98zuj3e3646kg3rbpg";
 var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
 
 //Range to search from initial location. Defaults to 5 miles. Maximum 100 mi (160 km).
-var selRadius = "7";
+var selRadius = "9";
 
 var todayDate = new Date();
 var startDate = "2018-04-01";
@@ -233,13 +233,17 @@ function addMvContainer(arr) {
     .attr("data-mvname",arr["name"]);
 
   // $("#movieContainer").append(newdcol);
-  $("#movieContainer").show("slow", function() {
-    $(this).append(newdcol)
-  });
-
+  // $("#movieContainer").show("slow", function() {
+  //   $(this).append(newdcol)
+  // });
+  newdcol.appendTo('#movieContainer').fadeIn('slow');
 };
 
+//Check if user is on the movie theater location and show time page
+var theaterTimeMode = false; 
+
 function inTheaterDisplay() {
+  if(theaterTimeMode){return;};
   $("#inTheaterBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
@@ -250,6 +254,7 @@ function inTheaterDisplay() {
 };
 
 function pastMovieDisplay() {
+  if(theaterTimeMode){return;};
   $("#pastMovieBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
@@ -260,6 +265,7 @@ function pastMovieDisplay() {
 };
 
 function mostPopularDisplay() {
+  if(theaterTimeMode){return;};
   $("#mostPopularBtn").click(function(event){
     $("#movieContainer").empty();
     RmMvSlide();
@@ -270,11 +276,16 @@ function mostPopularDisplay() {
 };
 
 //Display all the Available Button
-function btnDisplay(emailStr,zipStr) {
+function btnDisplay(emailStr,zipStr,timeStr,idStr) {
   var email = emailStr;
   var name = email.substring(0, email.lastIndexOf("@"));
   $("#sign_in_form").remove();
   $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12" id = "helloDisplay">Hi  ' + name + '  from  ' + zipStr + '</div>');
+  $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 text-uppercase" id = "lastLogTimeDisplay">Last Sign On Was on ' + timeStr + '</div>');
+  database.ref("Users").child(idStr).update({
+    "lastlogtime": moment().format('MMMM Do YYYY, h:mm:ss a'),
+  });
+  $("#lastLogTimeDisplay").delay(3000).fadeOut("slow");
   $("#heading").append('<div class="col-lg-12 col-md-12 col-sm-12 btnStyle"> <button type="button" class="btn btn-danger" id="inTheaterBtn">Movies Now Playing</button> <button type="button" class="btn btn-danger" id="mostPopularBtn">Most Popular Movies</button> <button type="button" class="btn btn-danger" id="pastMovieBtn">Past Movies</button> </div>');
   inTheaterDisplay();
   pastMovieDisplay();
@@ -298,12 +309,13 @@ function logUser(userlog,emaillog,zipcodelog) {
   var data = {
     "user": userlog,
     "email": emaillog,
-    "zipcode": zipcodelog
+    "zipcode": zipcodelog,
+    "lastlogtime": moment().format('MMMM Do YYYY, h:mm:ss a'),
   };
   ref.child(userlog).set(data).then(function(ref){
     console.log("Firebase Data Saved")
   },function(error){
-    console.log(errpr);
+    console.log(error);
   });
 };
 
@@ -381,14 +393,17 @@ firebase.auth().onAuthStateChanged(function(user) {
   };
 });
 
-function getFbZip(id,email) {
+function getFbZip(id,email,date) {
   console.log("getFbZip is running");
   database.ref("Users").child(id).once("value").then(function(snapshot) {
+    console.log(snapshot.val());
     var zip = snapshot.val().zipcode;
+    var logtime = snapshot.val().lastlogtime;
+    var ditemp = snapshot.val().user;
     curLocation.zip = zip;
     tmsURL = baseUrl + todayDateLocal + "&zip=" + curLocation.zip + "&radius=" + selRadius + "&api_key=" + tmsKey;
     gmapUrl= geocodeApiUrl + curLocation.zip + googleKey + "&sensor=false";
-    btnDisplay(email,zip);
+    btnDisplay(email,zip,logtime,ditemp);
     findMvLocation(tmsURL);
     getZipLatLng(gmapUrl);
   });
@@ -408,6 +423,7 @@ $(document).on("click", "#closeModal", "#modal",function(event){
 
 // when click the Back button show the list of movie again. 
 $(document).on("click", "#backBtn",function(event){
+  theaterTimeMode = false;
   $("#theaterMapContainer").empty();
   $("#theaterTContainer").empty();
   $("#headerRow").empty();
@@ -419,6 +435,7 @@ $(document).on("click", "#backBtn",function(event){
 
 // click the "Find Theater" button to display the list of movie theaters around the zip to show the movie
 $("#findTheaterBtn").click(function(event){
+  theaterTimeMode = true;
   var selZip = $(this).attr("data-zipcode");
   var selName = $(this).attr("data-mvname");
   theaterDisplay(selName);

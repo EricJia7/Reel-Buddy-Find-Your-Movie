@@ -82,6 +82,14 @@ body {
   word-spacing: 0.5em;
 }
 
+#lastLogTimeDisplay {
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 0.5em;
+  font-size: 1em;
+  color: #F26D21;
+  word-spacing: 0.5em;
+}
+
 .submitBtn {
   font-family: 'Roboto', sans-serif;
   margin:1em 0;
