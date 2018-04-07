@@ -49,10 +49,15 @@ var database = firebase.database();
 
 // ******************************variables related with TMS API start
 var tmsMovies = new Array();
-var tmsKey = "nvp8skju7ngwxgvf56t3772x";
-var tmsKey1 = "k652j8wurjgybvrj3v9w65pa";
-var tmsKey1 = "22ajvn98zuj3e3646kg3rbpg";
-var tmsKey1 = "bb4j4x5rtvymem5u5chcnvhz";
+var tmsKey = "";
+var tmsKeyList = ["k652j8wurjgybvrj3v9w65pa","nvp8skju7ngwxgvf56t3772x","22ajvn98zuj3e3646kg3rbpg","bb4j4x5rtvymem5u5chcnvhz"];
+
+function getRandomInt(num) {
+  return Math.floor(Math.random() * Math.floor(num));
+}
+
+tmsKey = tmsKeyList[getRandomInt(tmsKeyList.length)];
+console.log("The tms key using now is: " + tmsKey);
 
 //Range to search from initial location. Defaults to 5 miles. Maximum 100 mi (160 km).
 var selRadius = "9";
@@ -393,7 +398,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   };
 });
 
-function getFbZip(id,email,date) {
+function getFbZip(id,email) {
   console.log("getFbZip is running");
   database.ref("Users").child(id).once("value").then(function(snapshot) {
     console.log(snapshot.val());
